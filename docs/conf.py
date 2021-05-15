@@ -17,9 +17,9 @@
 
 # -- Project information -----------------------------------------------------
 
-project = 'MyPaddleSeg'
-copyright = '2021, liuzheng'
-author = 'liuzheng'
+project = 'PaddleSeg'
+copyright = '2021, paddlepaddle'
+author = 'paddlepaddle'
 
 # The full version, including alpha/beta/rc tags
 release = '1'

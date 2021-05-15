@@ -23,17 +23,17 @@
 2. 安装飞桨2.0或更高版本，具体安装方法请参见[快速安装](https://www.paddlepaddle.org.cn/install/quick)。由于图像分割模型计算开销大，推荐在GPU版本的PaddlePaddle下使用PaddleSeg。
 3. 下载PaddleSeg的代码库。
 
-```python
+```
 # PaddleSeg的代码库下载，同时支持github源和gitee源，为了在国内网络环境更快下载，此处使用gitee源。  
 #! git clone https://github.com/PaddlePaddle/PaddleSeg.git
 ! git clone https://gitee.com/paddlepaddle/PaddleSeg.git
 ```
 
-```python
+```
 %cd ~/PaddleSeg/
 ```
 
-```python
+```
 #通过pip形式安装paddleseg库，不仅安装了代码运行的环境依赖，也安装了PaddleSeg的API
 ! pip install paddleseg
 ```
@@ -42,7 +42,7 @@
 
 执行下面命令，并在PaddleSeg/output文件夹中出现预测结果，则证明安装成功
 
-```python
+```
 ! python predict.py \
        --config configs/quick_start/bisenet_optic_disc_512x512_1k.yml \
        --model_path https://bj.bcebos.com/paddleseg/dygraph/optic_disc/bisenet_optic_disc_512x512_1k/model.pdparams\
@@ -64,7 +64,7 @@
 
 
 
-```python
+```
 #下载并解压数据集
 ! mkdir dataset
 %cd dataset
@@ -83,12 +83,11 @@
 
 - 文件夹命名为custom_dataset、images、labels不是必须，用户可以自主进行命名。
 
-- train.txt val.txt test.txt中文件并非要和custom_dataset文件夹在同一目录下，可以通过配置文件中的选项修改，但一般推荐整理成如下格式：
+- train.txt val.txt test.txt中文件并非要和custom_dataset文件夹在同一目录下，可以通过配置文件中的选项修改.
 
-  custom_dataset | |--images | |--image1.jpg | |--image2.jpg | |--... | |--labels | |--label1.png | |--label2.png | |--... | |--train.txt | |--val.txt | |--test.txt
+ 其中train.txt和val.txt的内容如下所示：
 
-  ```python
-   其中train.txt和val.txt的内容如下所示：
+  ```
 
    images/image1.jpg labels/label1.png
    images/image2.jpg labels/label2.png
@@ -126,7 +125,7 @@ PaddleSeg在配置文件中详细列出了每一个可以优化的选项，用�
 - 1：在PaddleSeg的配置文件给出的学习率中，除了"bisenet_optic_disc_512x512_1k.yml"中为单卡学习率外，其余配置文件中均为4卡的学习率，如果用户是单卡训练，则学习率设置应变成原来的1/4。
 - 2：在PaddleSeg中的配置文件，给出了多种损失函数：CrossEntropy Loss、BootstrappedCrossEntropy Loss、Dice Loss、BCE Loss、OhemCrossEntropyLoss、RelaxBoundaryLoss、OhemEdgeAttentionLoss、Lovasz Hinge Loss、Lovasz Softmax Loss，用户可根据自身需求进行更改。
 
-```python
+```
 batch_size: 4  #设定batch_size的值即为迭代一次送入网络的图片数量，一般显卡显存越大，batch_size的值可以越大
 iters: 1000    #模型迭代的次数
 
@@ -193,7 +192,7 @@ A：与模型方案相关的信息均在配置文件中，还包括对原始样�
 - num_classes为类别（背景也算为一类）；
 - transform是对数据的预处理的策略，用户可根据自己的实际需要改动
 
-```python
+```
 train_dataset:
   type: Dataset
   dataset_root: dataset/optic_disc_seg
@@ -224,7 +223,7 @@ val_dataset:
 
 In [6]
 
-```python
+```
 !export CUDA_VISIBLE_DEVICES=0 # 设置1张可用的卡
 
 **windows下请执行以下命令**
@@ -239,7 +238,7 @@ In [6]
 
 - 结果文件
 
-```python
+```
 output
   ├── iter_500 #表示在500步保存一次模型
           ├── model.pdparams  #模型参数
@@ -291,7 +290,7 @@ A：如图中序号所示，1号yml文件的参数可以覆盖2号yml文件的�
 
 **注意**：如果想要使用多卡训练的话，需要将环境变量CUDA_VISIBLE_DEVICES指定为多卡（不指定时默认使用所有的gpu)，并使用paddle.distributed.launch启动训练脚本（windows下由于不支持nccl，无法使用多卡训练）:
 
-```python
+```
 export CUDA_VISIBLE_DEVICES=0,1,2,3 # 设置4张可用的卡
 python -m paddle.distributed.launch train.py \
        --config configs/quick_start/bisenet_optic_disc_512x512_1k.yml \
@@ -303,7 +302,7 @@ python -m paddle.distributed.launch train.py \
 
 **3.8 恢复训练**
 
-```python
+```
 python train.py \
        --config configs/quick_start/bisenet_optic_disc_512x512_1k.yml \
        --resume_model output/iter_500 \
@@ -328,7 +327,7 @@ python train.py \
 
 使用如下命令启动VisualDL查看日志
 
-```python
+```
 **下述命令会在127.0.0.1上启动一个服务，支持通过前端web页面查看，可以通过--host这个参数指定实际ip地址**
 visualdl --logdir output/
 ```
@@ -343,7 +342,7 @@ visualdl --logdir output/
 
 训练完成后，用户可以使用评估脚本val.py来评估模型效果。假设训练过程中迭代次数（iters）为1000，保存模型的间隔为500，即每迭代1000次数据集保存2次训练模型。因此一共会产生2个定期保存的模型，加上保存的最佳模型best_model，一共有3个模型，可以通过model_path指定期望评估的模型文件。
 
-```python
+```
 !python val.py \
        --config configs/quick_start/bisenet_optic_disc_512x512_1k.yml \
        --model_path output/iter_1000/model.pdparams
@@ -351,7 +350,7 @@ visualdl --logdir output/
 
 如果想进行多尺度翻转评估可通过传入`--aug_eval`进行开启，然后通过`--scales`传入尺度信息， `--flip_horizontal`开启水平翻转， `flip_vertical`开启垂直翻转。使用示例如下：
 
-```python
+```
 python val.py \
        --config configs/quick_start/bisenet_optic_disc_512x512_1k.yml \
        --model_path output/iter_1000/model.pdparams \
@@ -362,7 +361,7 @@ python val.py \
 
 如果想进行滑窗评估可通过传入`--is_slide`进行开启， 通过`--crop_size`传入窗口大小， `--stride`传入步长。使用示例如下：
 
-```python
+```
 python val.py \
        --config configs/quick_start/bisenet_optic_disc_512x512_1k.yml \
        --model_path output/iter_1000/model.pdparams \
@@ -381,7 +380,7 @@ Kappa=P0−Pe1−PeKappa= \frac{P_0-P_e}{1-P_e}*K**a**p**p**a*=1−*P**e**P*0−
 
 随着评估脚本的运行，最终打印的评估日志如下。
 
-```python
+```
 ...
 2021-01-13 16:41:29 [INFO]	Start evaluating (total_samples=76, total_iters=76)...
 76/76 [==============================] - 2s 30ms/step - batch_cost: 0.0268 - reader cost: 1.7656e-
@@ -400,7 +399,7 @@ predict.py脚本是专门用来可视化预测案例的，命令格式如下所�
 
 In [8]
 
-```python
+```
 !python predict.py \
        --config configs/quick_start/bisenet_optic_disc_512x512_1k.yml \
        --model_path output/iter_1000/model.pdparams \
@@ -423,8 +422,7 @@ In [8]
 **7 模型导出**
 
 为了方便用户进行工业级的部署，PaddleSeg提供了一键动转静的功能，即将训练出来的动态图模型文件转化成静态图形式。
-
-```python
+```
 ! python export.py \
        --config configs/quick_start/bisenet_optic_disc_512x512_1k.yml \
        --model_path output/iter_1000/model.pdparams
@@ -438,9 +436,9 @@ In [8]
 | save_dir   | 模型和visualdl日志文件的保存根路径 | 否         | output           |
 | model_path | 预训练模型参数的路径               | 否         | 配置文件中指定值 |
 
+```
 - 结果文件
 
-```python
 output
   ├── deploy.yaml            # 部署相关的配置文件
   ├── model.pdiparams        # 静态图模型参数
@@ -459,7 +457,7 @@ output
 | 服务端部署   | HubServing   | 完善中 |
 | 前端部署     | PaddleJS     | 完善中 |
 
-```python
+```
 #运行如下命令，会在output文件下面生成一张H0003.png的图像
 !python deploy/python/infer.py \
 --config output/deploy.yaml\
@@ -482,7 +480,7 @@ output
 
 - 在尝试完成使用配置文件进行训练之后，肯定有小伙伴想基于PaddleSeg进行更深入的开发，在这里，我们大概介绍一下PaddleSeg代码结构，
 
-```python
+```
 PaddleSeg
      ├──  configs #配置文件文件夹
      ├──  paddleseg #训练部署的核心代码
@@ -526,3 +524,4 @@ PaddleSeg
 - 同学们还可以尝试使用PaddleSeg的API来自己开发，开发人员在使用pip install命令安装PaddleSeg后，仅需通过几行代码即可轻松实现图像分割模型的训练、评估和推理。 感兴趣的小伙伴们可以访问[PaddleSeg动态图API使用教程](https://aistudio.baidu.com/aistudio/projectdetail/1339458?channelType=0&channel=0)
 
 PaddleSeg等各领域的开发套件已经为真正的工业实践提供了顶级方案，有国内的团队使用PaddleSeg的开发套件取得国际比赛的好成绩，可见开发套件提供的效果是State Of The Art的。
+

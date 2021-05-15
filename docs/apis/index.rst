@@ -6,7 +6,6 @@ API接口说明
 
    transforms/index.rst
    models/index.rst
-   backbones/backbones.md
-   core/core.md
-   cvlibs/cvlibs.md
-   losses/losses.md
+   backbones/index.rst
+   core/index.rst
+   cvlibs/index.rst

@@ -8,7 +8,7 @@ PaddleSeg是基于飞桨核心框架、开发套件和工具组件的深度学�
 * GitHub Issue反馈: http://www.github.com/PaddlePaddle/PaddleSeg/issues
 
 1. 注：本使用手册在打印为pdf后，可能会存在部分格式的兼容问题；
-2. 注：本文档持续在http://paddlex.readthedocs.io/进行更新。
+2. 注：本文档持续在http://paddleseg.readthedocs.io/进行更新。
 
 
 .. toctree::
@@ -23,40 +23,47 @@ PaddleSeg是基于飞桨核心框架、开发套件和工具组件的深度学�
    :maxdepth: 1
    :caption: 2. 数据准备与处理
    
-   data/README.md
+   data/introduce/index.rst
+   data/marker/index.rst
+   data/transform/index.rst
+   data/custom/index.rst
 
 .. toctree::
    :maxdepth: 1
    :caption: 3. PaddleSeg设计思想
    
-   design/README.md
+   design/use/index.rst
+   design/create/index.rst
 
 
 .. toctree::
    :maxdepth: 1
    :caption: 4. 模型训练
    
-   train/README.md
-
+   train/sigle/index.rst
+   train/multiple/index.rst
+   
 .. toctree::
    :maxdepth: 1
    :caption: 5. 模型评估
    
-   evaluation/README.md
-
+   evaluation/evaluate/index.rst
+   
 
 .. toctree::
    :maxdepth: 1
    :caption: 6. 模型导出
    
-   export/README.md
+   export/export/index.rst
 
 
 .. toctree::
    :maxdepth: 1
    :caption: 7. 模型部署
    
-   deployment/README.md
+   deployment/inference/index.rst
+   deployment/serving/index.rst
+   deployment/lite/index.rst
    
 .. toctree::
    :maxdepth: 1
@@ -69,13 +76,16 @@ PaddleSeg是基于飞桨核心框架、开发套件和工具组件的深度学�
    :maxdepth: 1
    :caption: 9. 模型压缩量化
    
-   slim/README.md
+   slim/crop/index.rst
+   slim/quantification/index.rst
    
 .. toctree::
    :maxdepth: 1
    :caption: 10. 重要模块说明
    
-   module/README.md
+   module/data/index.rst
+   module/loss/index.rst
+   module/tricks/index.rst
    
 .. toctree::
    :maxdepth: 1
@@ -90,10 +100,19 @@ PaddleSeg是基于飞桨核心框架、开发套件和工具组件的深度学�
    :maxdepth: 1
    :caption: 12. 产品实践解决方案
    
-   solution/README.md
-
+   solution/human/index.rst
+   solution/remotesensing/index.rst
+   solution/medical/index.rst
 
 .. toctree::
    :maxdepth: 1
-   :caption: 8. 附录
+   :caption: 13. 提交PR说明
+   
+   pr/pr/index.rst
+   
+.. toctree::
+   :maxdepth: 1
+   :caption: 14. FAQ文档问答
+   
+   faq/faq/index.rst
 
