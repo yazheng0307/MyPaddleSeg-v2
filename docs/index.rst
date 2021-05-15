@@ -23,40 +23,47 @@ PaddleSeg是基于飞桨核心框架、开发套件和工具组件的深度学�
    :maxdepth: 1
    :caption: 2. 数据准备与处理
    
-   data/README.md
+   data/introduce/index.rst
+   data/marker/index.rst
+   data/transform/index.rst
+   data/custom/index.rst
 
 .. toctree::
    :maxdepth: 1
    :caption: 3. PaddleSeg设计思想
    
-   design/README.md
+   design/use/index.rst
+   design/create/index.rst
 
 
 .. toctree::
    :maxdepth: 1
    :caption: 4. 模型训练
    
-   train/README.md
-
+   train/sigle/index.rst
+   train/multiple/index.rst
+   
 .. toctree::
    :maxdepth: 1
    :caption: 5. 模型评估
    
-   evaluation/README.md
-
+   evaluation/evaluate/index.rst
+   
 
 .. toctree::
    :maxdepth: 1
    :caption: 6. 模型导出
    
-   export/README.md
+   export/export/index.rst
 
 
 .. toctree::
    :maxdepth: 1
    :caption: 7. 模型部署
    
-   deployment/README.md
+   deployment/inference/index.rst
+   deployment/serving/index.rst
+   deployment/lite/index.rst
    
 .. toctree::
    :maxdepth: 1
@@ -69,13 +76,16 @@ PaddleSeg是基于飞桨核心框架、开发套件和工具组件的深度学�
    :maxdepth: 1
    :caption: 9. 模型压缩量化
    
-   slim/README.md
+   slim/crop/index.rst
+   slim/quantification/index.rst
    
 .. toctree::
    :maxdepth: 1
    :caption: 10. 重要模块说明
    
-   module/README.md
+   module/data/index.rst
+   module/loss/index.rst
+   module/tricks/index.rst
    
 .. toctree::
    :maxdepth: 1
@@ -90,10 +100,9 @@ PaddleSeg是基于飞桨核心框架、开发套件和工具组件的深度学�
    :maxdepth: 1
    :caption: 12. 产品实践解决方案
    
-   solution/README.md
+   solution/human/index.rst
+   solution/remotesensing/index.rst
+   solution/medical/index.rst
 
 
-.. toctree::
-   :maxdepth: 1
-   :caption: 8. 附录
 
