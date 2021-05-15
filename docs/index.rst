@@ -8,7 +8,7 @@ PaddleSeg是基于飞桨核心框架、开发套件和工具组件的深度学�
 * GitHub Issue反馈: http://www.github.com/PaddlePaddle/PaddleSeg/issues
 
 1. 注：本使用手册在打印为pdf后，可能会存在部分格式的兼容问题；
-2. 注：本文档持续在http://paddlex.readthedocs.io/进行更新。
+2. 注：本文档持续在http://paddleseg.readthedocs.io/进行更新。
 
 
 .. toctree::
