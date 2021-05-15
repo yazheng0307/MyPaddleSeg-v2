@@ -1,0 +1,1034 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="zh-CN" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>paddleseg.models &mdash; MyPaddleSeg 1 文档</title>
+  
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/translations.js"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="索引" href="../../genindex.html" />
+    <link rel="search" title="搜索" href="../../search.html" />
+    <link rel="next" title="paddleseg.models.backbone" href="../backbones.html" />
+    <link rel="prev" title="视觉模型集" href="index.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> MyPaddleSeg
+          
+
+          
+            
+            <img src="../../_static/paddleseg.png" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">1. 快速了解PaddleSeg</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../quick_start.html">PaddleSeg十分钟快速上手</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../install.html">PaddleSeg安装步骤</a></li>
+</ul>
+<p class="caption"><span class="caption-text">2. 数据准备与处理</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../data/README.html">待补充</a></li>
+</ul>
+<p class="caption"><span class="caption-text">3. PaddleSeg设计思想</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../design/README.html">待补充</a></li>
+</ul>
+<p class="caption"><span class="caption-text">4. 模型训练</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../train/README.html">待补充</a></li>
+</ul>
+<p class="caption"><span class="caption-text">5. 模型评估</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../evaluation/README.html">待补充</a></li>
+</ul>
+<p class="caption"><span class="caption-text">6. 模型导出</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../export/README.html">待补充</a></li>
+</ul>
+<p class="caption"><span class="caption-text">7. 模型部署</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../deployment/README.html">待补充</a></li>
+</ul>
+<p class="caption"><span class="caption-text">8. API使用教程</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../API_Example.html">API应用案例</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">API接口说明</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../transforms/index.html">数据处理与增强</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">视觉模型集</a><ul class="current">
+<li class="toctree-l3 current"><a class="current reference internal" href="#">paddleseg.models</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#deeplabv3">DeepLabV3+</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id1">DeepLabV3</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#fcn">FCN</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#ocrnet">OCRNet</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pspnet">PSPNet</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#ann">ANN</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#bisenetv2">BiSeNetV2</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#danet">DANet</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#fastscnn">FastSCNN</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#gcnet">GCNet</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#gscnn">GSCNN</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#hardnet">HarDNet</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#unet">UNet</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#u-sup-2-sup-net">U<sup>2</sup>Net</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id2">U<sup>2</sup>Net+</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#attentionunet">AttentionUNet</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id3">UNet++</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#decoupledsegnet">DecoupledSegNet</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#isanet">ISANet</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#emanet">EMANet</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dnlnet">DNLNet</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../backbones.html">paddleseg.models.backbone</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../core.html">paddleseg.core</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cvlibs.html">paddleseg.cvlibs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../losses.html">paddleseg.models.losses</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption"><span class="caption-text">9. 模型压缩量化</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../slim/README.html">待补充</a></li>
+</ul>
+<p class="caption"><span class="caption-text">10. 重要模块说明</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../module/README.html">待补充</a></li>
+</ul>
+<p class="caption"><span class="caption-text">11. 经典模型说明</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../models/unet.html">U-Net</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../models/deeplabv3.html">DeepLab V3+</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../models/ocrnet.html">OCRNet</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../models/fascnn.html">Fast-SCNN</a></li>
+</ul>
+<p class="caption"><span class="caption-text">12. 产品实践解决方案</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../solution/README.html">待补充</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">MyPaddleSeg</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../index.html">API接口说明</a> &raquo;</li>
+        
+          <li><a href="index.html">视觉模型集</a> &raquo;</li>
+        
+      <li>paddleseg.models</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../../_sources/apis/models/models.md.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="paddleseg-models">
+<h1>paddleseg.models<a class="headerlink" href="#paddleseg-models" title="永久链接至标题">¶</a></h1>
+<p>The models subpackage contains the following model for image sementic segmentaion.</p>
+<ul class="simple">
+<li><p><a class="reference external" href="#DeepLabV3">DeepLabV3+</a></p></li>
+<li><p><a class="reference external" href="#DeepLabV3-1">DeepLabV3</a></p></li>
+<li><p><a class="reference external" href="#FCN">FCN</a></p></li>
+<li><p><a class="reference external" href="#OCRNet">OCRNet</a></p></li>
+<li><p><a class="reference external" href="#PSPNet">PSPNet</a></p></li>
+<li><p><a class="reference external" href="#ANN">ANN</a></p></li>
+<li><p><a class="reference external" href="#BiSeNetV2">BiSeNetV2</a></p></li>
+<li><p><a class="reference external" href="#DANet">DANet</a></p></li>
+<li><p><a class="reference external" href="#FastSCNN">FastSCNN</a></p></li>
+<li><p><a class="reference external" href="#GCNet">GCNet</a></p></li>
+<li><p><a class="reference external" href="#GSCNN">GSCNN</a></p></li>
+<li><p><a class="reference external" href="#HarDNet">HarDNet</a></p></li>
+<li><p><a class="reference external" href="#UNet">UNet</a></p></li>
+<li><p><a class="reference external" href="#U2Net">U<sup>2</sup>Net</a></p></li>
+<li><p><a class="reference external" href="#U2Net-1">U<sup>2</sup>Net+</a></p></li>
+<li><p><a class="reference external" href="#AttentionUNet">AttentionUNet</a></p></li>
+<li><p><a class="reference external" href="#UNet-1">UNet++</a></p></li>
+<li><p><a class="reference external" href="#DecoupledSegNet">DecoupledSegNet</a></p></li>
+<li><p><a class="reference external" href="#ISANet">ISANet</a></p></li>
+<li><p><a class="reference external" href="#EMANet">EMANet</a></p></li>
+<li><p><a class="reference external" href="#DNLNet">DNLNet</a></p></li>
+</ul>
+<div class="section" id="deeplabv3">
+<h2><a class="reference external" href="../../paddleseg/models/deeplab.py">DeepLabV3+</a><a class="headerlink" href="#deeplabv3" title="永久链接至标题">¶</a></h2>
+<blockquote>
+<div><p>CLASS paddleseg.models.DeepLabV3P(num_classes, backbone, backbone_indices=(0, 3), aspp_ratios=(1, 6, 12, 18), aspp_out_channels=256, align_corners=False, pretrained=None)</p>
+</div></blockquote>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">The</span> <span class="n">DeepLabV3Plus</span> <span class="n">implementation</span> <span class="n">based</span> <span class="n">on</span> <span class="n">PaddlePaddle</span><span class="o">.</span>
+
+<span class="n">The</span> <span class="n">original</span> <span class="n">article</span> <span class="n">refers</span> <span class="n">to</span>
+ <span class="n">Liang</span><span class="o">-</span><span class="n">Chieh</span> <span class="n">Chen</span><span class="p">,</span> <span class="n">et</span><span class="p">,</span> <span class="n">al</span><span class="o">.</span> <span class="s2">&quot;Encoder-Decoder with Atrous Separable Convolution for Semantic Image Segmentation&quot;</span>
+ <span class="p">(</span><span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">arxiv</span><span class="o">.</span><span class="n">org</span><span class="o">/</span><span class="nb">abs</span><span class="o">/</span><span class="mf">1802.02611</span><span class="p">)</span>
+</pre></div>
+</div>
+<blockquote>
+<div><blockquote>
+<div><p>Args</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><strong>num_classes</strong> (int): The unique number of target classes.</p></li>
+<li><p><strong>backbone</strong> (paddle.nn.Layer): Backbone network, currently support Resnet50_vd/Resnet101_vd/Xception65.</p></li>
+<li><p><strong>backbone_indices</strong> (tuple, optional): Two values in the tuple indicate the indices of output of backbone.
+Default: (0, 3).</p></li>
+<li><p><strong>aspp_ratios</strong> (tuple, optional): The dilation rate using in ASSP module.
+If output_stride=16, aspp_ratios should be set as (1, 6, 12, 18).
+If output_stride=8, aspp_ratios is (1, 12, 24, 36).
+Default: (1, 6, 12, 18).</p></li>
+<li><p><strong>aspp_out_channels</strong> (int, optional): The output channels of ASPP module. Default: 256.</p></li>
+<li><p><strong>align_corners</strong> (bool, optional): An argument of F.interpolate. It should be set to False when the feature size is even,
+e.g. 1024x512, otherwise it is True, e.g. 769x769. Default: False.</p></li>
+<li><p><strong>pretrained</strong> (str, optional): The path or url of pretrained model. Default: None.</p></li>
+</ul>
+</div></blockquote>
+</div></blockquote>
+</div></blockquote>
+</div>
+<div class="section" id="id1">
+<h2><a class="reference external" href="../../paddleseg/models/deeplab.py">DeepLabV3</a><a class="headerlink" href="#id1" title="永久链接至标题">¶</a></h2>
+<blockquote>
+<div><p>CLASS paddleseg.models.DeepLabV3(num_classes, backbone, backbone_indices=(3, ), aspp_ratios=(1, 6, 12, 18), aspp_out_channels=256, align_corners=False, pretrained=None)</p>
+</div></blockquote>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">The</span> <span class="n">DeepLabV3</span> <span class="n">implementation</span> <span class="n">based</span> <span class="n">on</span> <span class="n">PaddlePaddle</span><span class="o">.</span>
+
+<span class="n">The</span> <span class="n">original</span> <span class="n">article</span> <span class="n">refers</span> <span class="n">to</span>
+ <span class="n">Liang</span><span class="o">-</span><span class="n">Chieh</span> <span class="n">Chen</span><span class="p">,</span> <span class="n">et</span><span class="p">,</span> <span class="n">al</span><span class="o">.</span> <span class="s2">&quot;Rethinking Atrous Convolution for Semantic Image Segmentation&quot;</span>
+ <span class="p">(</span><span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">arxiv</span><span class="o">.</span><span class="n">org</span><span class="o">/</span><span class="n">pdf</span><span class="o">/</span><span class="mf">1706.05587</span><span class="o">.</span><span class="n">pdf</span><span class="p">)</span><span class="o">.</span>
+</pre></div>
+</div>
+<blockquote>
+<div><blockquote>
+<div><p>Args</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><strong>num_classes</strong> (int): The unique number of target classes.</p></li>
+<li><p><strong>backbone</strong> (paddle.nn.Layer): Backbone network, currently support Resnet50_vd/Resnet101_vd/Xception65.</p></li>
+<li><p><strong>backbone_indices</strong> (tuple, optional): Two values in the tuple indicate the indices of output of backbone.
+Default: (3, ).</p></li>
+<li><p><strong>aspp_ratios</strong> (tuple, optional): The dilation rate using in ASSP module.
+If output_stride=16, aspp_ratios should be set as (1, 6, 12, 18).
+If output_stride=8, aspp_ratios is (1, 12, 24, 36).
+Default: (1, 6, 12, 18).</p></li>
+<li><p><strong>aspp_out_channels</strong> (int, optional): The output channels of ASPP module. Default: 256.</p></li>
+<li><p><strong>align_corners</strong> (bool, optional): An argument of F.interpolate. It should be set to False when the feature size is even,
+e.g. 1024x512, otherwise it is True, e.g. 769x769. Default: False.</p></li>
+<li><p><strong>pretrained</strong> (str, optional): The path or url of pretrained model. Default: None.</p></li>
+</ul>
+</div></blockquote>
+</div></blockquote>
+</div></blockquote>
+</div>
+<div class="section" id="fcn">
+<h2><a class="reference external" href="../../paddleseg/models/deeplab.py">FCN</a><a class="headerlink" href="#fcn" title="永久链接至标题">¶</a></h2>
+<blockquote>
+<div><p>CLASS paddleseg.models.FCN(num_classes,
+backbone_indices=(-1, ),
+backbone_channels=(270, ),
+channels=None)</p>
+</div></blockquote>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">A</span> <span class="n">simple</span> <span class="n">implementation</span> <span class="k">for</span> <span class="n">FCN</span> <span class="n">based</span> <span class="n">on</span> <span class="n">PaddlePaddle</span><span class="o">.</span>
+
+<span class="n">The</span> <span class="n">original</span> <span class="n">article</span> <span class="n">refers</span> <span class="n">to</span>
+<span class="n">Evan</span> <span class="n">Shelhamer</span><span class="p">,</span> <span class="n">et</span><span class="p">,</span> <span class="n">al</span><span class="o">.</span> <span class="s2">&quot;Fully Convolutional Networks for Semantic Segmentation&quot;</span>
+<span class="p">(</span><span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">arxiv</span><span class="o">.</span><span class="n">org</span><span class="o">/</span><span class="nb">abs</span><span class="o">/</span><span class="mf">1411.4038</span><span class="p">)</span><span class="o">.</span>
+</pre></div>
+</div>
+<blockquote>
+<div><blockquote>
+<div><p>Args</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><strong>num_classes</strong> (int): The unique number of target classes.</p></li>
+<li><p><strong>backbone</strong> (paddle.nn.Layer): Backbone networks.</p></li>
+<li><p><strong>backbone_indices</strong> (tuple, optional): The values in the tuple indicate the indices of output of backbone.
+Default: (-1, ).</p></li>
+<li><p><strong>channels</strong> (int, optional): The channels between conv layer and the last layer of FCNHead.
+If None, it will be the number of channels of input features. Default: None.</p></li>
+<li><p><strong>align_corners</strong> (bool): An argument of F.interpolate. It should be set to False when the output size of feature
+is even, e.g. 1024x512, otherwise it is True, e.g. 769x769.  Default: False.</p></li>
+<li><p><strong>pretrained</strong> (str, optional): The path or url of pretrained model. Default: None</p></li>
+</ul>
+</div></blockquote>
+</div></blockquote>
+</div></blockquote>
+</div>
+<div class="section" id="ocrnet">
+<h2><a class="reference external" href="../../paddleseg/models/ocrnet.py">OCRNet</a><a class="headerlink" href="#ocrnet" title="永久链接至标题">¶</a></h2>
+<blockquote>
+<div><p>CLASS paddleseg.models.OCRNet(num_classes,
+backbone,
+backbone_indices,
+ocr_mid_channels=512,
+ocr_key_channels=256,
+align_corners=False,
+pretrained=None)</p>
+</div></blockquote>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">The</span> <span class="n">OCRNet</span> <span class="n">implementation</span> <span class="n">based</span> <span class="n">on</span> <span class="n">PaddlePaddle</span><span class="o">.</span>
+<span class="n">The</span> <span class="n">original</span> <span class="n">article</span> <span class="n">refers</span> <span class="n">to</span>
+    <span class="n">Yuan</span><span class="p">,</span> <span class="n">Yuhui</span><span class="p">,</span> <span class="n">et</span> <span class="n">al</span><span class="o">.</span> <span class="s2">&quot;Object-Contextual Representations for Semantic Segmentation&quot;</span>
+    <span class="p">(</span><span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">arxiv</span><span class="o">.</span><span class="n">org</span><span class="o">/</span><span class="n">pdf</span><span class="o">/</span><span class="mf">1909.11065</span><span class="o">.</span><span class="n">pdf</span><span class="p">)</span>
+</pre></div>
+</div>
+<blockquote>
+<div><blockquote>
+<div><p>Args</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><strong>num_classes</strong> (int): The unique number of target classes.</p></li>
+<li><p><strong>backbone</strong> (Paddle.nn.Layer): Backbone network.</p></li>
+<li><p><strong>backbone_indices</strong> (tuple): A tuple indicates the indices of output of backbone.
+It can be either one or two values, if two values, the first index will be taken as
+a deep-supervision feature in auxiliary layer; the second one will be taken as
+input of pixel representation. If one value, it is taken by both above.</p></li>
+<li><p><strong>ocr_mid_channels</strong> (int, optional): The number of middle channels in OCRHead. Default: 512.</p></li>
+<li><p><strong>ocr_key_channels</strong> (int, optional): The number of key channels in ObjectAttentionBlock. Default: 256.</p></li>
+<li><p><strong>align_corners</strong> (bool): An argument of F.interpolate. It should be set to False when the output size of feature
+is even, e.g. 1024x512, otherwise it is True, e.g. 769x769.  Default: False.</p></li>
+<li><p><strong>pretrained</strong> (str, optional): The path or url of pretrained model. Default: None.</p></li>
+</ul>
+</div></blockquote>
+</div></blockquote>
+</div></blockquote>
+</div>
+<div class="section" id="pspnet">
+<h2><a class="reference external" href="../../paddleseg/models/pspnet.py">PSPNet</a><a class="headerlink" href="#pspnet" title="永久链接至标题">¶</a></h2>
+<blockquote>
+<div><p>CLASS paddleseg.models.PSPNet(num_classes,
+backbone,
+backbone_indices=(2, 3),
+pp_out_channels=1024,
+bin_sizes=(1, 2, 3, 6),
+enable_auxiliary_loss=True,
+align_corners=False,
+pretrained=None)</p>
+</div></blockquote>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">The</span> <span class="n">PSPNet</span> <span class="n">implementation</span> <span class="n">based</span> <span class="n">on</span> <span class="n">PaddlePaddle</span><span class="o">.</span>
+
+<span class="n">The</span> <span class="n">original</span> <span class="n">article</span> <span class="n">refers</span> <span class="n">to</span>
+<span class="n">Zhao</span><span class="p">,</span> <span class="n">Hengshuang</span><span class="p">,</span> <span class="n">et</span> <span class="n">al</span><span class="o">.</span> <span class="s2">&quot;Pyramid scene parsing network&quot;</span>
+<span class="p">(</span><span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">openaccess</span><span class="o">.</span><span class="n">thecvf</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">content_cvpr_2017</span><span class="o">/</span><span class="n">papers</span><span class="o">/</span><span class="n">Zhao_Pyramid_Scene_Parsing_CVPR_2017_paper</span><span class="o">.</span><span class="n">pdf</span><span class="p">)</span><span class="o">.</span>
+</pre></div>
+</div>
+<blockquote>
+<div><blockquote>
+<div><p>Args</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><strong>num_classes</strong> (int): The unique number of target classes.</p></li>
+<li><p><strong>backbone</strong> (Paddle.nn.Layer): Backbone network, currently support Resnet50/101.</p></li>
+<li><p><strong>backbone_indices</strong> (tuple, optional): Two values in the tuple indicate the indices of output of backbone.</p></li>
+<li><p><strong>pp_out_channels</strong> (int, optional): The output channels after Pyramid Pooling Module. Default: 1024.</p></li>
+<li><p><strong>bin_sizes</strong> (tuple, optional): The out size of pooled feature maps. Default: (1,2,3,6).</p></li>
+<li><p><strong>enable_auxiliary_loss</strong> (bool, optional): A bool value indicates whether adding auxiliary loss. Default: True.</p></li>
+<li><p><strong>align_corners</strong> (bool, optional): An argument of F.interpolate. It should be set to False when the feature size is even,
+e.g. 1024x512, otherwise it is True, e.g. 769x769. Default: False.</p></li>
+<li><p><strong>pretrained</strong> (str, optional): The path or url of pretrained model. Default: None.</p></li>
+</ul>
+</div></blockquote>
+</div></blockquote>
+</div></blockquote>
+</div>
+<div class="section" id="ann">
+<h2><a class="reference external" href="../../paddleseg/models/ann.py">ANN</a><a class="headerlink" href="#ann" title="永久链接至标题">¶</a></h2>
+<blockquote>
+<div><p>CLASS paddleseg.models.ANN(num_classes,
+backbone,
+backbone_indices=(2, 3),
+key_value_channels=256,
+inter_channels=512,
+psp_size=(1, 3, 6, 8),
+enable_auxiliary_loss=True,
+align_corners=False,
+pretrained=None)</p>
+</div></blockquote>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">The</span> <span class="n">ANN</span> <span class="n">implementation</span> <span class="n">based</span> <span class="n">on</span> <span class="n">PaddlePaddle</span><span class="o">.</span>
+
+<span class="n">The</span> <span class="n">original</span> <span class="n">article</span> <span class="n">refers</span> <span class="n">to</span>
+<span class="n">Zhen</span><span class="p">,</span> <span class="n">Zhu</span><span class="p">,</span> <span class="n">et</span> <span class="n">al</span><span class="o">.</span> <span class="s2">&quot;Asymmetric Non-local Neural Networks for Semantic Segmentation&quot;</span>
+<span class="p">(</span><span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">arxiv</span><span class="o">.</span><span class="n">org</span><span class="o">/</span><span class="n">pdf</span><span class="o">/</span><span class="mf">1908.07678</span><span class="o">.</span><span class="n">pdf</span><span class="p">)</span><span class="o">.</span>
+</pre></div>
+</div>
+<blockquote>
+<div><blockquote>
+<div><p>Args</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><strong>num_classes</strong> (int): The unique number of target classes.</p></li>
+<li><p><strong>backbone</strong> (Paddle.nn.Layer): Backbone network, currently support Resnet50/101.</p></li>
+<li><p><strong>backbone_indices</strong> (tuple, optional): Two values in the tuple indicate the indices of output of backbone.</p></li>
+<li><p><strong>key_value_channels</strong> (int, optional): The key and value channels of self-attention map in both AFNB and APNB modules.
+Default: 256.</p></li>
+<li><p><strong>inter_channels</strong> (int, optional): Both input and output channels of APNB modules. Default: 512.</p></li>
+<li><p><strong>psp_size</strong> (tuple, optional): The out size of pooled feature maps. Default: (1, 3, 6, 8).</p></li>
+<li><p><strong>enable_auxiliary_loss</strong> (bool, optional): A bool value indicates whether adding auxiliary loss. Default: True.</p></li>
+<li><p><strong>align_corners</strong> (bool, optional): An argument of F.interpolate. It should be set to False when the feature size is even,
+e.g. 1024x512, otherwise it is True, e.g. 769x769. Default: False.</p></li>
+<li><p><strong>pretrained</strong> (str, optional): The path or url of pretrained model. Default: None.</p></li>
+</ul>
+</div></blockquote>
+</div></blockquote>
+</div></blockquote>
+</div>
+<div class="section" id="bisenetv2">
+<h2><a class="reference external" href="../../paddleseg/models/bisenet.py">BiSeNetV2</a><a class="headerlink" href="#bisenetv2" title="永久链接至标题">¶</a></h2>
+<blockquote>
+<div><p>CLASS paddleseg.models.BiSeNetV2(num_classes,
+lambd=0.25,
+align_corners=False,
+pretrained=None)</p>
+</div></blockquote>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">The</span> <span class="n">BiSeNet</span> <span class="n">V2</span> <span class="n">implementation</span> <span class="n">based</span> <span class="n">on</span> <span class="n">PaddlePaddle</span><span class="o">.</span>
+
+<span class="n">The</span> <span class="n">original</span> <span class="n">article</span> <span class="n">refers</span> <span class="n">to</span>
+<span class="n">Yu</span><span class="p">,</span> <span class="n">Changqian</span><span class="p">,</span> <span class="n">et</span> <span class="n">al</span><span class="o">.</span> <span class="s2">&quot;BiSeNet V2: Bilateral Network with Guided Aggregation for Real-time Semantic Segmentation&quot;</span>
+<span class="p">(</span><span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">arxiv</span><span class="o">.</span><span class="n">org</span><span class="o">/</span><span class="nb">abs</span><span class="o">/</span><span class="mf">2004.02147</span><span class="p">)</span>
+</pre></div>
+</div>
+<blockquote>
+<div><blockquote>
+<div><p>Args</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><strong>num_classes</strong> (int): The unique number of target classes.</p></li>
+<li><p><strong>lambd</strong> (float, optional): A factor for controlling the size of semantic branch channels. Default: 0.25.</p></li>
+<li><p><strong>pretrained</strong> (str, optional): The path or url of pretrained model. Default: None.</p></li>
+</ul>
+</div></blockquote>
+</div></blockquote>
+</div></blockquote>
+</div>
+<div class="section" id="danet">
+<h2><a class="reference external" href="../../paddleseg/models/danet.py">DANet</a><a class="headerlink" href="#danet" title="永久链接至标题">¶</a></h2>
+<blockquote>
+<div><p>CLASS paddleseg.models.DANet(num_classes,
+lambd=0.25,
+align_corners=False,
+pretrained=None)</p>
+</div></blockquote>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">The</span> <span class="n">DANet</span> <span class="n">implementation</span> <span class="n">based</span> <span class="n">on</span> <span class="n">PaddlePaddle</span><span class="o">.</span>
+
+<span class="n">The</span> <span class="n">original</span> <span class="n">article</span> <span class="n">refers</span> <span class="n">to</span>
+<span class="n">Fu</span><span class="p">,</span> <span class="n">jun</span><span class="p">,</span> <span class="n">et</span> <span class="n">al</span><span class="o">.</span> <span class="s2">&quot;Dual Attention Network for Scene Segmentation&quot;</span>
+<span class="p">(</span><span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">arxiv</span><span class="o">.</span><span class="n">org</span><span class="o">/</span><span class="n">pdf</span><span class="o">/</span><span class="mf">1809.02983</span><span class="o">.</span><span class="n">pdf</span><span class="p">)</span>
+</pre></div>
+</div>
+<blockquote>
+<div><blockquote>
+<div><p>Args</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><strong>num_classes</strong> (int): The unique number of target classes.</p></li>
+<li><p><strong>backbone</strong> (Paddle.nn.Layer): A backbone network.</p></li>
+<li><p><strong>backbone_indices</strong> (tuple): The values in the tuple indicate the indices of
+output of backbone.</p></li>
+<li><p><strong>align_corners</strong> (bool): An argument of F.interpolate. It should be set to False when the output size of feature
+is even, e.g. 1024x512, otherwise it is True, e.g. 769x769.  Default: False.</p></li>
+<li><p><strong>pretrained</strong> (str, optional): The path or url of pretrained model. Default: None.</p></li>
+</ul>
+</div></blockquote>
+</div></blockquote>
+</div></blockquote>
+</div>
+<div class="section" id="fastscnn">
+<h2><a class="reference external" href="../../paddleseg/models/fast_scnn.py">FastSCNN</a><a class="headerlink" href="#fastscnn" title="永久链接至标题">¶</a></h2>
+<blockquote>
+<div><p>CLASS paddleseg.models.FastSCNN(num_classes,
+enable_auxiliary_loss=True,
+align_corners=False,
+pretrained=None)</p>
+</div></blockquote>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">The</span> <span class="n">FastSCNN</span> <span class="n">implementation</span> <span class="n">based</span> <span class="n">on</span> <span class="n">PaddlePaddle</span><span class="o">.</span>
+<span class="n">As</span> <span class="n">mentioned</span> <span class="ow">in</span> <span class="n">the</span> <span class="n">original</span> <span class="n">paper</span><span class="p">,</span> <span class="n">FastSCNN</span> <span class="ow">is</span> <span class="n">a</span> <span class="n">real</span><span class="o">-</span><span class="n">time</span> <span class="n">segmentation</span> <span class="n">algorithm</span> <span class="p">(</span><span class="mf">123.5</span><span class="n">fps</span><span class="p">)</span>
+<span class="n">even</span> <span class="k">for</span> <span class="n">high</span> <span class="n">resolution</span> <span class="n">images</span> <span class="p">(</span><span class="mi">1024</span><span class="n">x2048</span><span class="p">)</span><span class="o">.</span>
+<span class="n">The</span> <span class="n">original</span> <span class="n">article</span> <span class="n">refers</span> <span class="n">to</span>
+<span class="n">Poudel</span><span class="p">,</span> <span class="n">Rudra</span> <span class="n">PK</span><span class="p">,</span> <span class="n">et</span> <span class="n">al</span><span class="o">.</span> <span class="s2">&quot;Fast-scnn: Fast semantic segmentation network&quot;</span>
+<span class="p">(</span><span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">arxiv</span><span class="o">.</span><span class="n">org</span><span class="o">/</span><span class="n">pdf</span><span class="o">/</span><span class="mf">1902.04502</span><span class="o">.</span><span class="n">pdf</span><span class="p">)</span><span class="o">.</span>
+</pre></div>
+</div>
+<blockquote>
+<div><blockquote>
+<div><p>Args</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><strong>num_classes</strong> (int): The unique number of target classes.</p></li>
+<li><p><strong>enable_auxiliary_loss</strong> (bool, optional): A bool value indicates whether adding auxiliary loss.
+If true, auxiliary loss will be added after LearningToDownsample module. Default: False.</p></li>
+<li><p><strong>align_corners</strong> (bool): An argument of F.interpolate. It should be set to False when the output size of feature
+is even, e.g. 1024x512, otherwise it is True, e.g. 769x769.. Default: False.</p></li>
+<li><p><strong>pretrained</strong> (str, optional): The path or url of pretrained model. Default: None.</p></li>
+</ul>
+</div></blockquote>
+</div></blockquote>
+</div></blockquote>
+</div>
+<div class="section" id="gcnet">
+<h2><a class="reference external" href="../../paddleseg/models/gcnet.py">GCNet</a><a class="headerlink" href="#gcnet" title="永久链接至标题">¶</a></h2>
+<blockquote>
+<div><p>CLASS paddleseg.models.GCNet(num_classes,
+backbone,
+backbone_indices=(2, 3),
+gc_channels=512,
+ratio=0.25,
+enable_auxiliary_loss=True,
+align_corners=False,
+pretrained=None)</p>
+</div></blockquote>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">The</span> <span class="n">GCNet</span> <span class="n">implementation</span> <span class="n">based</span> <span class="n">on</span> <span class="n">PaddlePaddle</span><span class="o">.</span>
+
+<span class="n">The</span> <span class="n">original</span> <span class="n">article</span> <span class="n">refers</span> <span class="n">to</span>
+<span class="n">Cao</span><span class="p">,</span> <span class="n">Yue</span><span class="p">,</span> <span class="n">et</span> <span class="n">al</span><span class="o">.</span> <span class="s2">&quot;GCnet: Non-local networks meet squeeze-excitation networks and beyond&quot;</span>
+<span class="p">(</span><span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">arxiv</span><span class="o">.</span><span class="n">org</span><span class="o">/</span><span class="n">pdf</span><span class="o">/</span><span class="mf">1904.11492</span><span class="o">.</span><span class="n">pdf</span><span class="p">)</span><span class="o">.</span>
+</pre></div>
+</div>
+<blockquote>
+<div><blockquote>
+<div><p>Args</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><strong>num_classes</strong> (int): The unique number of target classes.</p></li>
+<li><p><strong>backbone</strong> (Paddle.nn.Layer): Backbone network, currently support Resnet50/101.</p></li>
+<li><p><strong>backbone_indices</strong> (tuple, optional): Two values in the tuple indicate the indices of output of backbone.</p></li>
+<li><p><strong>gc_channels</strong> (int, optional): The input channels to Global Context Block. Default: 512.</p></li>
+<li><p><strong>ratio</strong> (float, optional): It indicates the ratio of attention channels and gc_channels. Default: 0.25.</p></li>
+<li><p><strong>enable_auxiliary_loss</strong> (bool, optional): A bool value indicates whether adding auxiliary loss. Default: True.</p></li>
+<li><p><strong>align_corners</strong> (bool, optional): An argument of F.interpolate. It should be set to False when the feature size is even,
+e.g. 1024x512, otherwise it is True, e.g. 769x769. Default: False.</p></li>
+<li><p><strong>pretrained</strong> (str, optional): The path or url of pretrained model. Default: None.</p></li>
+</ul>
+</div></blockquote>
+</div></blockquote>
+</div></blockquote>
+</div>
+<div class="section" id="gscnn">
+<h2><a class="reference external" href="../../paddleseg/models/gscnn.py">GSCNN</a><a class="headerlink" href="#gscnn" title="永久链接至标题">¶</a></h2>
+<blockquote>
+<div><p>CLASS paddleseg.models.GSCNN(num_classes,
+backbone,
+backbone_indices=(0, 1, 2, 3),
+aspp_ratios=(1, 6, 12, 18),
+aspp_out_channels=256,
+align_corners=False,
+pretrained=None)</p>
+</div></blockquote>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">The</span> <span class="n">GSCNN</span> <span class="n">implementation</span> <span class="n">based</span> <span class="n">on</span> <span class="n">PaddlePaddle</span><span class="o">.</span>
+
+<span class="n">The</span> <span class="n">original</span> <span class="n">article</span> <span class="n">refers</span> <span class="n">to</span>
+<span class="n">Towaki</span> <span class="n">Takikawa</span><span class="p">,</span> <span class="n">et</span><span class="p">,</span> <span class="n">al</span><span class="o">.</span> <span class="s2">&quot;Gated-SCNN: Gated Shape CNNs for Semantic Segmentation&quot;</span>
+<span class="p">(</span><span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">arxiv</span><span class="o">.</span><span class="n">org</span><span class="o">/</span><span class="n">pdf</span><span class="o">/</span><span class="mf">1907.05740</span><span class="o">.</span><span class="n">pdf</span><span class="p">)</span>
+</pre></div>
+</div>
+<blockquote>
+<div><blockquote>
+<div><p>Args</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><strong>num_classes</strong> (int): The unique number of target classes.</p></li>
+<li><p><strong>backbone</strong> (paddle.nn.Layer): Backbone network, currently support Resnet50_vd/Resnet101_vd.</p></li>
+<li><p><strong>backbone_indices</strong> (tuple, optional): Two values in the tuple indicate the indices of output of backbone.
+Default: (0, 1, 2, 3).</p></li>
+<li><p><strong>aspp_ratios</strong> (tuple, optional): The dilation rate using in ASSP module.
+If output_stride=16, aspp_ratios should be set as (1, 6, 12, 18).
+If output_stride=8, aspp_ratios is (1, 12, 24, 36).
+Default: (1, 6, 12, 18).</p></li>
+<li><p><strong>aspp_out_channels</strong> (int, optional): The output channels of ASPP module. Default: 256.</p></li>
+<li><p><strong>align_corners</strong> (bool, optional): An argument of F.interpolate. It should be set to False when the feature size is even,
+e.g. 1024x512, otherwise it is True, e.g. 769x769. Default: False.</p></li>
+<li><p><strong>pretrained</strong> (str, optional): The path or url of pretrained model. Default: None.</p></li>
+</ul>
+</div></blockquote>
+</div></blockquote>
+</div></blockquote>
+</div>
+<div class="section" id="hardnet">
+<h2><a class="reference external" href="../../paddleseg/models/hardnet.py">HarDNet</a><a class="headerlink" href="#hardnet" title="永久链接至标题">¶</a></h2>
+<blockquote>
+<div><p>CLASS paddleseg.models.HarDNet(num_classes,
+stem_channels=(16, 24, 32, 48),
+ch_list=(64, 96, 160, 224, 320),
+grmul=1.7,
+gr=(10, 16, 18, 24, 32),
+n_layers=(4, 4, 8, 8, 8),
+align_corners=False,
+pretrained=None)</p>
+</div></blockquote>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">Real</span> <span class="n">Time</span><span class="p">]</span> <span class="n">The</span> <span class="n">FC</span><span class="o">-</span><span class="n">HardDNet</span> <span class="mi">70</span> <span class="n">implementation</span> <span class="n">based</span> <span class="n">on</span> <span class="n">PaddlePaddle</span><span class="o">.</span>
+<span class="n">The</span> <span class="n">original</span> <span class="n">article</span> <span class="n">refers</span> <span class="n">to</span>
+    <span class="n">Chao</span><span class="p">,</span> <span class="n">Ping</span><span class="p">,</span> <span class="n">et</span> <span class="n">al</span><span class="o">.</span> <span class="s2">&quot;HarDNet: A Low Memory Traffic Network&quot;</span>
+    <span class="p">(</span><span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">arxiv</span><span class="o">.</span><span class="n">org</span><span class="o">/</span><span class="n">pdf</span><span class="o">/</span><span class="mf">1909.00948</span><span class="o">.</span><span class="n">pdf</span><span class="p">)</span>
+</pre></div>
+</div>
+<blockquote>
+<div><blockquote>
+<div><p>Args</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><strong>num_classes</strong> (int): The unique number of target classes.</p></li>
+<li><p><strong>stem_channels</strong> (tuple|list, optional): The number of channels before the encoder. Default: (16, 24, 32, 48).</p></li>
+<li><p><strong>ch_list</strong> (tuple|list, optional): The number of channels at each block in the encoder. Default: (64, 96, 160, 224, 320).</p></li>
+<li><p><strong>grmul</strong> (float, optional): The channel multiplying factor in HarDBlock, which is m in the paper. Default: 1.7.</p></li>
+<li><p><strong>gr</strong> (tuple|list, optional): The growth rate in each HarDBlock, which is k in the paper. Default: (10, 16, 18, 24, 32).</p></li>
+<li><p><strong>n_layers</strong> (tuple|list, optional): The number of layers in each HarDBlock. Default: (4, 4, 8, 8, 8).</p></li>
+<li><p><strong>align_corners</strong> (bool): An argument of F.interpolate. It should be set to False when the output size of feature
+is even, e.g. 1024x512, otherwise it is True, e.g. 769x769.  Default: False.</p></li>
+<li><p><strong>pretrained</strong> (str, optional): The path or url of pretrained model. Default: None.</p></li>
+</ul>
+</div></blockquote>
+</div></blockquote>
+</div></blockquote>
+</div>
+<div class="section" id="unet">
+<h2><a class="reference external" href="../../paddleseg/models/unet.py">UNet</a><a class="headerlink" href="#unet" title="永久链接至标题">¶</a></h2>
+<blockquote>
+<div><p>CLASS paddleseg.models.UNet(num_classes,
+align_corners=False,
+use_deconv=False,
+pretrained=None)</p>
+</div></blockquote>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">The</span> <span class="n">UNet</span> <span class="n">implementation</span> <span class="n">based</span> <span class="n">on</span> <span class="n">PaddlePaddle</span><span class="o">.</span>
+
+<span class="n">The</span> <span class="n">original</span> <span class="n">article</span> <span class="n">refers</span> <span class="n">to</span>
+<span class="n">Olaf</span> <span class="n">Ronneberger</span><span class="p">,</span> <span class="n">et</span><span class="p">,</span> <span class="n">al</span><span class="o">.</span> <span class="s2">&quot;U-Net: Convolutional Networks for Biomedical Image Segmentation&quot;</span>
+<span class="p">(</span><span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">arxiv</span><span class="o">.</span><span class="n">org</span><span class="o">/</span><span class="nb">abs</span><span class="o">/</span><span class="mf">1505.04597</span><span class="p">)</span><span class="o">.</span>
+</pre></div>
+</div>
+<blockquote>
+<div><blockquote>
+<div><p>Args</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><strong>num_classes</strong> (int): The unique number of target classes.</p></li>
+<li><p><strong>align_corners</strong> (bool): An argument of F.interpolate. It should be set to False when the output size of feature
+is even, e.g. 1024x512, otherwise it is True, e.g. 769x769.  Default: False.</p></li>
+<li><p><strong>use_deconv</strong> (bool, optional): A bool value indicates whether using deconvolution in upsampling.
+If False, use resize_bilinear. Default: False.</p></li>
+<li><p><strong>pretrained</strong> (str, optional): The path or url of pretrained model for fine tuning. Default: None.</p></li>
+</ul>
+</div></blockquote>
+</div></blockquote>
+</div></blockquote>
+</div>
+<div class="section" id="u-sup-2-sup-net">
+<h2><a class="reference external" href="../../paddleseg/models/u2net.py">U<sup>2</sup>Net</a><a class="headerlink" href="#u-sup-2-sup-net" title="永久链接至标题">¶</a></h2>
+<blockquote>
+<div><p>CLASS paddleseg.models.U2Net(num_classes, in_ch=3, pretrained=None)</p>
+</div></blockquote>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">The</span> <span class="n">U</span><span class="o">^</span><span class="mi">2</span><span class="o">-</span><span class="n">Net</span> <span class="n">implementation</span> <span class="n">based</span> <span class="n">on</span> <span class="n">PaddlePaddle</span><span class="o">.</span>
+
+<span class="n">The</span> <span class="n">original</span> <span class="n">article</span> <span class="n">refers</span> <span class="n">to</span>
+<span class="n">Xuebin</span> <span class="n">Qin</span><span class="p">,</span> <span class="n">et</span><span class="p">,</span> <span class="n">al</span><span class="o">.</span> <span class="s2">&quot;U^2-Net: Going Deeper with Nested U-Structure for Salient Object Detection&quot;</span>
+<span class="p">(</span><span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">arxiv</span><span class="o">.</span><span class="n">org</span><span class="o">/</span><span class="nb">abs</span><span class="o">/</span><span class="mf">2005.09007</span><span class="p">)</span><span class="o">.</span>
+</pre></div>
+</div>
+<blockquote>
+<div><blockquote>
+<div><p>Args</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><strong>num_classes</strong> (int): The unique number of target classes.</p></li>
+<li><p><strong>in_ch</strong> (int, optional): Input channels. Default: 3.</p></li>
+<li><p><strong>pretrained</strong> (str, optional): The path or url of pretrained model for fine tuning. Default: None.</p></li>
+</ul>
+</div></blockquote>
+</div></blockquote>
+</div></blockquote>
+</div>
+<div class="section" id="id2">
+<h2><a class="reference external" href="../../paddleseg/models/u2net.py">U<sup>2</sup>Net+</a><a class="headerlink" href="#id2" title="永久链接至标题">¶</a></h2>
+<blockquote>
+<div><p>CLASS paddleseg.models.U2Netp(num_classes, in_ch=3, pretrained=None)</p>
+</div></blockquote>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">The</span> <span class="n">U</span><span class="o">^</span><span class="mi">2</span><span class="o">-</span><span class="n">Netp</span> <span class="n">implementation</span> <span class="n">based</span> <span class="n">on</span> <span class="n">PaddlePaddle</span><span class="o">.</span>
+
+<span class="n">The</span> <span class="n">original</span> <span class="n">article</span> <span class="n">refers</span> <span class="n">to</span>
+<span class="n">Xuebin</span> <span class="n">Qin</span><span class="p">,</span> <span class="n">et</span><span class="p">,</span> <span class="n">al</span><span class="o">.</span> <span class="s2">&quot;U^2-Net: Going Deeper with Nested U-Structure for Salient Object Detection&quot;</span>
+<span class="p">(</span><span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">arxiv</span><span class="o">.</span><span class="n">org</span><span class="o">/</span><span class="nb">abs</span><span class="o">/</span><span class="mf">2005.09007</span><span class="p">)</span><span class="o">.</span>
+</pre></div>
+</div>
+<blockquote>
+<div><blockquote>
+<div><p>Args</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><strong>num_classes</strong> (int): The unique number of target classes.</p></li>
+<li><p><strong>in_ch</strong> (int, optional): Input channels. Default: 3.</p></li>
+<li><p><strong>pretrained</strong> (str, optional): The path or url of pretrained model for fine tuning. Default: None.</p></li>
+</ul>
+</div></blockquote>
+</div></blockquote>
+</div></blockquote>
+</div>
+<div class="section" id="attentionunet">
+<h2><a class="reference external" href="../../paddleseg/models/attention_unet.py">AttentionUNet</a><a class="headerlink" href="#attentionunet" title="永久链接至标题">¶</a></h2>
+<blockquote>
+<div><p>CLASS paddleseg.models.AttentionUNet(num_classes, pretrained=None)</p>
+</div></blockquote>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">The</span> <span class="n">Attention</span><span class="o">-</span><span class="n">UNet</span> <span class="n">implementation</span> <span class="n">based</span> <span class="n">on</span> <span class="n">PaddlePaddle</span><span class="o">.</span>
+<span class="n">As</span> <span class="n">mentioned</span> <span class="ow">in</span> <span class="n">the</span> <span class="n">original</span> <span class="n">paper</span><span class="p">,</span> <span class="n">author</span> <span class="n">proposes</span> <span class="n">a</span> <span class="n">novel</span> <span class="n">attention</span> <span class="n">gate</span> <span class="p">(</span><span class="n">AG</span><span class="p">)</span>
+<span class="n">that</span> <span class="n">automatically</span> <span class="n">learns</span> <span class="n">to</span> <span class="n">focus</span> <span class="n">on</span> <span class="n">target</span> <span class="n">structures</span> <span class="n">of</span> <span class="n">varying</span> <span class="n">shapes</span> <span class="ow">and</span> <span class="n">sizes</span><span class="o">.</span>
+<span class="n">Models</span> <span class="n">trained</span> <span class="k">with</span> <span class="n">AGs</span> <span class="n">implicitly</span> <span class="n">learn</span> <span class="n">to</span> <span class="n">suppress</span> <span class="n">irrelevant</span> <span class="n">regions</span> <span class="ow">in</span> <span class="n">an</span> <span class="nb">input</span> <span class="n">image</span> <span class="k">while</span>
+<span class="n">highlighting</span> <span class="n">salient</span> <span class="n">features</span> <span class="n">useful</span> <span class="k">for</span> <span class="n">a</span> <span class="n">specific</span> <span class="n">task</span><span class="o">.</span>
+
+<span class="n">The</span> <span class="n">original</span> <span class="n">article</span> <span class="n">refers</span> <span class="n">to</span>
+<span class="n">Oktay</span><span class="p">,</span> <span class="n">O</span><span class="p">,</span> <span class="n">et</span><span class="p">,</span> <span class="n">al</span><span class="o">.</span> <span class="s2">&quot;Attention u-net: Learning where to look for the pancreas.&quot;</span>
+<span class="p">(</span><span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">arxiv</span><span class="o">.</span><span class="n">org</span><span class="o">/</span><span class="n">pdf</span><span class="o">/</span><span class="mf">1804.03999</span><span class="o">.</span><span class="n">pdf</span><span class="p">)</span><span class="o">.</span>
+</pre></div>
+</div>
+<blockquote>
+<div><blockquote>
+<div><p>Args</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><strong>num_classes</strong> (int): The unique number of target classes.</p></li>
+<li><p><strong>pretrained</strong> (str, optional): The path or url of pretrained model. Default: None.</p></li>
+</ul>
+</div></blockquote>
+</div></blockquote>
+</div></blockquote>
+</div>
+<div class="section" id="id3">
+<h2><a class="reference external" href="../../paddleseg/models/unet_plusplus.py">UNet++</a><a class="headerlink" href="#id3" title="永久链接至标题">¶</a></h2>
+<blockquote>
+<div><p>class UNetPlusPlus(in_channels,
+num_classes,
+use_deconv=False,
+align_corners=False,
+pretrained=None,
+is_ds=True)</p>
+</div></blockquote>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">The</span> <span class="n">UNet</span><span class="o">++</span> <span class="n">implementation</span> <span class="n">based</span> <span class="n">on</span> <span class="n">PaddlePaddle</span><span class="o">.</span>
+
+<span class="n">The</span> <span class="n">original</span> <span class="n">article</span> <span class="n">refers</span> <span class="n">to</span>
+<span class="n">Zongwei</span> <span class="n">Zhou</span><span class="p">,</span> <span class="n">et</span><span class="p">,</span> <span class="n">al</span><span class="o">.</span> <span class="s2">&quot;UNet++: A Nested U-Net Architecture for Medical Image Segmentation&quot;</span>
+<span class="p">(</span><span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">arxiv</span><span class="o">.</span><span class="n">org</span><span class="o">/</span><span class="nb">abs</span><span class="o">/</span><span class="mf">1807.10165</span><span class="p">)</span><span class="o">.</span>
+</pre></div>
+</div>
+<blockquote>
+<div><blockquote>
+<div><p>Args</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><strong>in_channels</strong> (int): The channel number of input image.</p></li>
+<li><p><strong>num_classes</strong> (int): The unique number of target classes.</p></li>
+<li><p><strong>use_deconv</strong> (bool, optional): A bool value indicates whether using deconvolution in upsampling.
+If False, use resize_bilinear. Default: False.</p></li>
+<li><p><strong>align_corners</strong> (bool): An argument of F.interpolate. It should be set to False when the output size of feature
+is even, e.g. 1024x512, otherwise it is True, e.g. 769x769.  Default: False.</p></li>
+<li><p><strong>pretrained</strong> (str, optional): The path or url of pretrained model for fine tuning. Default: None.</p></li>
+<li><p><strong>is_ds</strong> (bool): use deep supervision or not. Default: True</p></li>
+</ul>
+</div></blockquote>
+</div></blockquote>
+</div></blockquote>
+</div>
+<div class="section" id="decoupledsegnet">
+<h2><a class="reference external" href="../../paddleseg/models/decoupled_segnet.py">DecoupledSegNet</a><a class="headerlink" href="#decoupledsegnet" title="永久链接至标题">¶</a></h2>
+<blockquote>
+<div><p>class DecoupledSegNet(num_classes,
+backbone,
+backbone_indices=(0, 3),
+aspp_ratios=(1, 6, 12, 18),
+aspp_out_channels=256,
+align_corners=False,
+pretrained=None)</p>
+</div></blockquote>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">The</span> <span class="n">DecoupledSegNet</span> <span class="n">implementation</span> <span class="n">based</span> <span class="n">on</span> <span class="n">PaddlePaddle</span><span class="o">.</span>
+
+<span class="n">The</span> <span class="n">original</span> <span class="n">article</span> <span class="n">refers</span> <span class="n">to</span>
+<span class="n">Xiangtai</span> <span class="n">Li</span><span class="p">,</span> <span class="n">et</span><span class="p">,</span> <span class="n">al</span><span class="o">.</span> <span class="s2">&quot;Improving Semantic Segmentation via Decoupled Body and Edge Supervision&quot;</span>
+<span class="p">(</span><span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">arxiv</span><span class="o">.</span><span class="n">org</span><span class="o">/</span><span class="n">pdf</span><span class="o">/</span><span class="mf">2007.10035</span><span class="o">.</span><span class="n">pdf</span><span class="p">)</span>
+</pre></div>
+</div>
+<blockquote>
+<div><blockquote>
+<div><p>Args</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><strong>num_classes</strong> (int): The unique number of target classes.</p></li>
+<li><p><strong>backbone</strong> (paddle.nn.Layer): Backbone network, currently support Resnet50_vd/Resnet101_vd.</p></li>
+<li><p><strong>backbone_indices</strong> (tuple, optional): Two values in the tuple indicate the indices of output of backbone.
+Default: (0, 3).</p></li>
+<li><p><strong>aspp_ratios</strong> (tuple, optional): The dilation rate using in ASSP module.
+If output_stride=16, aspp_ratios should be set as (1, 6, 12, 18).
+If output_stride=8, aspp_ratios is (1, 12, 24, 36).
+Default: (1, 6, 12, 18).</p></li>
+<li><p><strong>aspp_out_channels</strong> (int, optional): The output channels of ASPP module. Default: 256.</p></li>
+<li><p><strong>align_corners</strong> (bool, optional): An argument of F.interpolate. It should be set to False when the feature size is even,
+e.g. 1024x512, otherwise it is True, e.g. 769x769. Default: False.</p></li>
+<li><p><strong>pretrained</strong> (str, optional): The path or url of pretrained model. Default: None.</p></li>
+</ul>
+</div></blockquote>
+</div></blockquote>
+</div></blockquote>
+</div>
+<div class="section" id="isanet">
+<h2><a class="reference external" href="../../paddleseg/models/isanet.py">ISANet</a><a class="headerlink" href="#isanet" title="永久链接至标题">¶</a></h2>
+<blockquote>
+<div><p>CLASS paddleseg.models.ISANet(num_classes, backbone, backbone_indices=(2, 3), isa_channels=256, down_factor=(8, 8), enable_auxiliary_loss=True, align_corners=False, pretrained=None)</p>
+</div></blockquote>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">The</span> <span class="n">ISANet</span> <span class="n">implementation</span> <span class="n">based</span> <span class="n">on</span> <span class="n">PaddlePaddle</span><span class="o">.</span>
+
+<span class="n">The</span> <span class="n">original</span> <span class="n">article</span> <span class="n">refers</span> <span class="n">to</span> <span class="n">Lang</span> <span class="n">Huang</span><span class="p">,</span> <span class="n">et</span> <span class="n">al</span><span class="o">.</span> <span class="s2">&quot;Interlaced Sparse Self-Attention for Semantic Segmentation&quot;</span>
+<span class="p">(</span><span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">arxiv</span><span class="o">.</span><span class="n">org</span><span class="o">/</span><span class="nb">abs</span><span class="o">/</span><span class="mf">1907.12273</span><span class="p">)</span><span class="o">.</span>
+</pre></div>
+</div>
+<blockquote>
+<div><blockquote>
+<div><p>Args</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><strong>num_classes</strong> (int): The unique number of target classes.</p></li>
+<li><p><strong>backbone</strong> (Paddle.nn.Layer): A backbone network.</p></li>
+<li><p><strong>backbone_indices</strong> (tuple): The values in the tuple indicate the indices of output of backbone.</p></li>
+<li><p><strong>isa_channels</strong> (int): The channels of ISA Module.</p></li>
+<li><p><strong>down_factor</strong> (tuple): Divide the height and width dimension to (Ph, PW) groups.</p></li>
+<li><p><strong>enable_auxiliary_loss</strong> (bool, optional): A bool value indicates whether adding auxiliary loss. Default: True.</p></li>
+<li><p><strong>align_corners</strong> (bool): An argument of F.interpolate. It should be set to False when the output size of feature
+is even, e.g. 1024x512, otherwise it is True, e.g. 769x769.  Default: False.</p></li>
+<li><p><strong>pretrained</strong> (str, optional): The path or url of pretrained model. Default: None.</p></li>
+</ul>
+</div></blockquote>
+</div></blockquote>
+</div></blockquote>
+</div>
+<div class="section" id="emanet">
+<h2><a class="reference external" href="../../paddleseg/models/emanet.py">EMANet</a><a class="headerlink" href="#emanet" title="永久链接至标题">¶</a></h2>
+<blockquote>
+<div><p>CLASS paddleseg.models.EMANet(num_classes, backbone, backbone_indices=(2, 3), ema_channels=512, gc_channels=256, num_bases=64, stage_num=3, momentum=0.1, concat_input=True, enable_auxiliary_loss=True, align_corners=False, pretrained=None)</p>
+</div></blockquote>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">The</span> <span class="n">EMANet</span> <span class="n">implementation</span> <span class="n">based</span> <span class="n">on</span> <span class="n">PaddlePaddle</span><span class="o">.</span>
+
+<span class="n">The</span> <span class="n">original</span> <span class="n">article</span> <span class="n">refers</span> <span class="n">to</span>
+<span class="n">Xia</span> <span class="n">Li</span><span class="p">,</span> <span class="n">et</span> <span class="n">al</span><span class="o">.</span> <span class="s2">&quot;Expectation-Maximization Attention Networks for Semantic Segmentation&quot;</span>
+<span class="p">(</span><span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">arxiv</span><span class="o">.</span><span class="n">org</span><span class="o">/</span><span class="nb">abs</span><span class="o">/</span><span class="mf">1907.13426</span><span class="p">)</span>
+</pre></div>
+</div>
+<blockquote>
+<div><blockquote>
+<div><p>Args</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><strong>num_classes</strong> (int): The unique number of target classes.</p></li>
+<li><p><strong>backbone</strong> (Paddle.nn.Layer): A backbone network.</p></li>
+<li><p><strong>backbone_indices</strong> (tuple): The values in the tuple indicate the indices of output of backbone.</p></li>
+<li><p><strong>ema_channels</strong> (int): EMA module channels.</p></li>
+<li><p><strong>gc_channels</strong> (int): The input channels to Global Context Block.</p></li>
+<li><p><strong>num_bases</strong> (int): Number of bases.</p></li>
+<li><p><strong>stage_num</strong> (int): The iteration number for EM.</p></li>
+<li><p><strong>momentum</strong> (float): The parameter for updating bases.</p></li>
+<li><p><strong>concat_input</strong> (bool): Whether concat the input and output of convs before classification layer. Default: True</p></li>
+<li><p><strong>enable_auxiliary_loss</strong> (bool, optional): A bool value indicates whether adding auxiliary loss. Default: True.</p></li>
+<li><p><strong>align_corners</strong> (bool): An argument of F.interpolate. It should be set to False when the output size of feature
+is even, e.g. 1024x512, otherwise it is True, e.g. 769x769.  Default: False.</p></li>
+<li><p><strong>pretrained</strong> (str, optional): The path or url of pretrained model. Default: None.</p></li>
+</ul>
+</div></blockquote>
+</div></blockquote>
+</div></blockquote>
+</div>
+<div class="section" id="dnlnet">
+<h2><a class="reference external" href="../../paddleseg/models/dnlnet.py">DNLNet</a><a class="headerlink" href="#dnlnet" title="永久链接至标题">¶</a></h2>
+<blockquote>
+<div><p>CLASS paddleseg.models.DNLNet(num_classes, backbone, backbone_indices=(2, 3), reduction=2, use_scale=True, mode=’embedded_gaussian’, temperature=0.05, concat_input=True, enable_auxiliary_loss=True, align_corners=False, pretrained=None)</p>
+</div></blockquote>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">The</span> <span class="n">DNLNet</span> <span class="n">implementation</span> <span class="n">based</span> <span class="n">on</span> <span class="n">PaddlePaddle</span><span class="o">.</span>
+
+<span class="n">The</span> <span class="n">original</span> <span class="n">article</span> <span class="n">refers</span> <span class="n">to</span>
+<span class="n">Minghao</span> <span class="n">Yin</span><span class="p">,</span> <span class="n">et</span> <span class="n">al</span><span class="o">.</span> <span class="s2">&quot;Disentangled Non-Local Neural Networks&quot;</span>
+<span class="p">(</span><span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">arxiv</span><span class="o">.</span><span class="n">org</span><span class="o">/</span><span class="nb">abs</span><span class="o">/</span><span class="mf">2006.06668</span><span class="p">)</span>
+</pre></div>
+</div>
+<blockquote>
+<div><blockquote>
+<div><p>Args</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><strong>num_classes</strong> (int): The unique number of target classes.</p></li>
+<li><p><strong>backbone</strong> (Paddle.nn.Layer): A backbone network.</p></li>
+<li><p><strong>backbone_indices</strong> (tuple): The values in the tuple indicate the indices of output of backbone.</p></li>
+<li><p><strong>reduction</strong> (int): Reduction factor of projection transform. Default: 2.</p></li>
+<li><p><strong>use_scale</strong> (bool): Whether to scale pairwise_weight by sqrt(1/inter_channels). Default: False.</p></li>
+<li><p><strong>mode</strong> (str): The nonlocal mode. Options are ‘embedded_gaussian’,
+‘dot_product’. Default: ‘embedded_gaussian’.</p></li>
+<li><p><strong>temperature</strong> (float): Temperature to adjust attention. Default: 0.05.</p></li>
+<li><p><strong>concat_input</strong> (bool): Whether concat the input and output of convs before classification layer. Default: True</p></li>
+<li><p><strong>enable_auxiliary_loss</strong> (bool, optional): A bool value indicates whether adding auxiliary loss. Default: True.</p></li>
+<li><p><strong>align_corners</strong> (bool): An argument of F.interpolate. It should be set to False when the output size of feature
+is even, e.g. 1024x512, otherwise it is True, e.g. 769x769.  Default: False.</p></li>
+<li><p><strong>pretrained</strong> (str, optional): The path or url of pretrained model. Default: None.</p></li>
+</ul>
+</div></blockquote>
+</div></blockquote>
+</div></blockquote>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+        <a href="../backbones.html" class="btn btn-neutral float-right" title="paddleseg.models.backbone" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="index.html" class="btn btn-neutral float-left" title="视觉模型集" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; 版权所有 2021, liuzheng.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

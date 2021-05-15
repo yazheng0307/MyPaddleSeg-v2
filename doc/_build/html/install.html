@@ -1,0 +1,307 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="zh-CN" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>PaddleSeg安装步骤 &mdash; MyPaddleSeg 1 文档</title>
+  
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/translations.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="索引" href="genindex.html" />
+    <link rel="search" title="搜索" href="search.html" />
+    <link rel="next" title="待补充" href="data/README.html" />
+    <link rel="prev" title="PaddleSeg十分钟快速上手" href="quick_start.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> MyPaddleSeg
+          
+
+          
+            
+            <img src="_static/paddleseg.png" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">1. 快速了解PaddleSeg</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="quick_start.html">PaddleSeg十分钟快速上手</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">PaddleSeg安装步骤</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#paddlepaddle">1.安装PaddlePaddle</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#pip">pip 安装</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#conda">Conda 安装</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#id1">2.下载PaddleSeg代码</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id2">3.安装PaddleSeg依赖</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption"><span class="caption-text">2. 数据准备与处理</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="data/README.html">待补充</a></li>
+</ul>
+<p class="caption"><span class="caption-text">3. PaddleSeg设计思想</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="design/README.html">待补充</a></li>
+</ul>
+<p class="caption"><span class="caption-text">4. 模型训练</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="train/README.html">待补充</a></li>
+</ul>
+<p class="caption"><span class="caption-text">5. 模型评估</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="evaluation/README.html">待补充</a></li>
+</ul>
+<p class="caption"><span class="caption-text">6. 模型导出</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="export/README.html">待补充</a></li>
+</ul>
+<p class="caption"><span class="caption-text">7. 模型部署</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="deployment/README.html">待补充</a></li>
+</ul>
+<p class="caption"><span class="caption-text">8. API使用教程</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="API_Example.html">API应用案例</a></li>
+<li class="toctree-l1"><a class="reference internal" href="apis/index.html">API接口说明</a></li>
+</ul>
+<p class="caption"><span class="caption-text">9. 模型压缩量化</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="slim/README.html">待补充</a></li>
+</ul>
+<p class="caption"><span class="caption-text">10. 重要模块说明</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="module/README.html">待补充</a></li>
+</ul>
+<p class="caption"><span class="caption-text">11. 经典模型说明</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="models/unet.html">U-Net</a></li>
+<li class="toctree-l1"><a class="reference internal" href="models/deeplabv3.html">DeepLab V3+</a></li>
+<li class="toctree-l1"><a class="reference internal" href="models/ocrnet.html">OCRNet</a></li>
+<li class="toctree-l1"><a class="reference internal" href="models/fascnn.html">Fast-SCNN</a></li>
+</ul>
+<p class="caption"><span class="caption-text">12. 产品实践解决方案</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="solution/README.html">待补充</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">MyPaddleSeg</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>PaddleSeg安装步骤</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="_sources/install.md.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="paddleseg">
+<h1>PaddleSeg安装步骤<a class="headerlink" href="#paddleseg" title="永久链接至标题">¶</a></h1>
+<div class="section" id="paddlepaddle">
+<h2>1.安装PaddlePaddle<a class="headerlink" href="#paddlepaddle" title="永久链接至标题">¶</a></h2>
+<p>版本要求</p>
+<ul class="simple">
+<li><p>PaddlePaddle&gt;=1.6.1</p></li>
+<li><p>Python 2.7 or 3.5+</p></li>
+</ul>
+<div class="section" id="pip">
+<h3>pip 安装<a class="headerlink" href="#pip" title="永久链接至标题">¶</a></h3>
+<p>由于图像分割模型计算开销大，推荐在GPU版本的PaddlePaddle下使用PaddleSeg.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pip</span> <span class="n">install</span> <span class="n">paddlepaddle</span><span class="o">-</span><span class="n">gpu</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="conda">
+<h3>Conda 安装<a class="headerlink" href="#conda" title="永久链接至标题">¶</a></h3>
+<p>PaddlePaddle最新版本1.5支持Conda安装，可以减少相关依赖安装成本，conda相关使用说明可以参考<a class="reference external" href="https://www.anaconda.com/distribution/">Anaconda</a></p>
+<ul class="simple">
+<li><p>如果有多卡训练需求，请安装 NVIDIA NCCL &gt;=2.4.7，并在LINUX环境下运行
+更多安装方式详情可以查看 <a class="reference external" href="https://www.paddlepaddle.org.cn/documentation/docs/zh/beginners_guide/install/index_cn.html">PaddlePaddle安装说明</a></p></li>
+</ul>
+</div>
+</div>
+<div class="section" id="id1">
+<h2>2.下载PaddleSeg代码<a class="headerlink" href="#id1" title="永久链接至标题">¶</a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">git</span> <span class="n">clone</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">PaddlePaddle</span><span class="o">/</span><span class="n">PaddleSeg</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="id2">
+<h2>3.安装PaddleSeg依赖<a class="headerlink" href="#id2" title="永久链接至标题">¶</a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">cd</span> <span class="n">PaddleSeg</span>
+<span class="n">pip</span> <span class="n">install</span> <span class="o">-</span><span class="n">r</span> <span class="n">requirements</span><span class="o">.</span><span class="n">txt</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+        <a href="data/README.html" class="btn btn-neutral float-right" title="待补充" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="quick_start.html" class="btn btn-neutral float-left" title="PaddleSeg十分钟快速上手" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; 版权所有 2021, liuzheng.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

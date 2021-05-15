@@ -1,0 +1,668 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="zh-CN" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>paddleseg.transforms &mdash; MyPaddleSeg 1 文档</title>
+  
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/translations.js"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="索引" href="../../genindex.html" />
+    <link rel="search" title="搜索" href="../../search.html" />
+    <link rel="next" title="paddleseg.datasets" href="datasets.html" />
+    <link rel="prev" title="数据处理与增强" href="index.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> MyPaddleSeg
+          
+
+          
+            
+            <img src="../../_static/paddleseg.png" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">1. 快速了解PaddleSeg</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../quick_start.html">PaddleSeg十分钟快速上手</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../install.html">PaddleSeg安装步骤</a></li>
+</ul>
+<p class="caption"><span class="caption-text">2. 数据准备与处理</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../data/README.html">待补充</a></li>
+</ul>
+<p class="caption"><span class="caption-text">3. PaddleSeg设计思想</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../design/README.html">待补充</a></li>
+</ul>
+<p class="caption"><span class="caption-text">4. 模型训练</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../train/README.html">待补充</a></li>
+</ul>
+<p class="caption"><span class="caption-text">5. 模型评估</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../evaluation/README.html">待补充</a></li>
+</ul>
+<p class="caption"><span class="caption-text">6. 模型导出</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../export/README.html">待补充</a></li>
+</ul>
+<p class="caption"><span class="caption-text">7. 模型部署</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../deployment/README.html">待补充</a></li>
+</ul>
+<p class="caption"><span class="caption-text">8. API使用教程</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../API_Example.html">API应用案例</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">API接口说明</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">数据处理与增强</a><ul class="current">
+<li class="toctree-l3 current"><a class="current reference internal" href="#">paddleseg.transforms</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#compose">Compose</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#randomhorizontalflip">RandomHorizontalFlip</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#randomverticalflip">RandomVerticalFlip</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#resize">Resize</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#resizebylong">ResizeByLong</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#resizerangescaling">ResizeRangeScaling</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#resizestepscaling">ResizeStepScaling</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#normalize">Normalize</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#padding">Padding</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#randompaddingcrop">RandomPaddingCrop</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#randomblur">RandomBlur</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#randomrotation">RandomRotation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#randomscaleaspect">RandomScaleAspect</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#randomdistort">RandomDistort</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="datasets.html">paddleseg.datasets</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../models/index.html">视觉模型集</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../backbones.html">paddleseg.models.backbone</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../core.html">paddleseg.core</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cvlibs.html">paddleseg.cvlibs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../losses.html">paddleseg.models.losses</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption"><span class="caption-text">9. 模型压缩量化</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../slim/README.html">待补充</a></li>
+</ul>
+<p class="caption"><span class="caption-text">10. 重要模块说明</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../module/README.html">待补充</a></li>
+</ul>
+<p class="caption"><span class="caption-text">11. 经典模型说明</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../models/unet.html">U-Net</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../models/deeplabv3.html">DeepLab V3+</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../models/ocrnet.html">OCRNet</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../models/fascnn.html">Fast-SCNN</a></li>
+</ul>
+<p class="caption"><span class="caption-text">12. 产品实践解决方案</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../solution/README.html">待补充</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">MyPaddleSeg</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../index.html">API接口说明</a> &raquo;</li>
+        
+          <li><a href="index.html">数据处理与增强</a> &raquo;</li>
+        
+      <li>paddleseg.transforms</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../../_sources/apis/transforms/transforms.md.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="paddleseg-transforms">
+<h1><a class="reference external" href="../../paddleseg/transforms/transforms.py">paddleseg.transforms</a><a class="headerlink" href="#paddleseg-transforms" title="永久链接至标题">¶</a></h1>
+<div class="section" id="compose">
+<h2>Compose<a class="headerlink" href="#compose" title="永久链接至标题">¶</a></h2>
+<blockquote>
+<div><p>CLASS paddleseg.transforms.Compose(transforms, to_rgb=True)</p>
+</div></blockquote>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Do</span> <span class="n">transformation</span> <span class="n">on</span> <span class="nb">input</span> <span class="n">data</span> <span class="k">with</span> <span class="n">corresponding</span> <span class="n">pre</span><span class="o">-</span><span class="n">processing</span> <span class="ow">and</span> <span class="n">augmentation</span> <span class="n">operations</span><span class="o">.</span>
+<span class="n">The</span> <span class="n">shape</span> <span class="n">of</span> <span class="nb">input</span> <span class="n">data</span> <span class="n">to</span> <span class="nb">all</span> <span class="n">operations</span> <span class="ow">is</span> <span class="p">[</span><span class="n">height</span><span class="p">,</span> <span class="n">width</span><span class="p">,</span> <span class="n">channels</span><span class="p">]</span><span class="o">.</span>
+</pre></div>
+</div>
+<blockquote>
+<div><blockquote>
+<div><p>Args</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><strong>transforms</strong> (list): A list contains data pre-processing or augmentation.</p></li>
+<li><p><strong>to_rgb</strong> (bool, optional): If converting image to RGB color space. Default: True.</p></li>
+</ul>
+</div></blockquote>
+</div></blockquote>
+</div></blockquote>
+<blockquote>
+<div><blockquote>
+<div><p>Raises</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>TypeError: When ‘transforms’ is not a list.</p></li>
+<li><p>ValueError: when the length of ‘transforms’ is less than 1.</p></li>
+</ul>
+</div></blockquote>
+</div></blockquote>
+</div></blockquote>
+</div>
+<div class="section" id="randomhorizontalflip">
+<h2>RandomHorizontalFlip<a class="headerlink" href="#randomhorizontalflip" title="永久链接至标题">¶</a></h2>
+<blockquote>
+<div><p>CLASS paddleseg.transforms.RandomHorizontalFlip(prob=0.5)</p>
+</div></blockquote>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Flip</span> <span class="n">an</span> <span class="n">image</span> <span class="n">horizontally</span> <span class="k">with</span> <span class="n">a</span> <span class="n">certain</span> <span class="n">probability</span><span class="o">.</span>
+</pre></div>
+</div>
+<blockquote>
+<div><blockquote>
+<div><p>Args</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><strong>prob</strong> (float, optional): A probability of horizontally flipping. Default: 0.5.</p></li>
+</ul>
+</div></blockquote>
+</div></blockquote>
+</div></blockquote>
+</div>
+<div class="section" id="randomverticalflip">
+<h2>RandomVerticalFlip<a class="headerlink" href="#randomverticalflip" title="永久链接至标题">¶</a></h2>
+<blockquote>
+<div><p>CLASS paddleseg.transforms.RandomVerticalFlip(prob=0.1)</p>
+</div></blockquote>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Flip</span> <span class="n">an</span> <span class="n">image</span> <span class="n">vertically</span> <span class="k">with</span> <span class="n">a</span> <span class="n">certain</span> <span class="n">probability</span><span class="o">.</span>
+</pre></div>
+</div>
+<blockquote>
+<div><blockquote>
+<div><p>Args</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><strong>prob</strong> (float, optional): A probability of vertical flipping. Default: 0.1.</p></li>
+</ul>
+</div></blockquote>
+</div></blockquote>
+</div></blockquote>
+</div>
+<div class="section" id="resize">
+<h2>Resize<a class="headerlink" href="#resize" title="永久链接至标题">¶</a></h2>
+<blockquote>
+<div><p>CLASS paddleseg.transforms.Resize(target_size=(512, 512), interp=’LINEAR’)</p>
+</div></blockquote>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Resize</span> <span class="n">an</span> <span class="n">image</span><span class="o">.</span>
+</pre></div>
+</div>
+<blockquote>
+<div><blockquote>
+<div><p>Args</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><strong>target_size</strong> (list|tuple, optional): The target size of image. Default: (512, 512).</p></li>
+<li><p><strong>interp</strong> (str, optional): The interpolation mode of resize is consistent with opencv.
+[‘NEAREST’, ‘LINEAR’, ‘CUBIC’, ‘AREA’, ‘LANCZOS4’, ‘RANDOM’]. Note that when it is
+‘RANDOM’, a random interpolation mode would be specified. Default: “LINEAR”.</p></li>
+</ul>
+</div></blockquote>
+</div></blockquote>
+</div></blockquote>
+<blockquote>
+<div><blockquote>
+<div><p>Raises</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>TypeError: When ‘target_size’ type is neither list nor tuple.</p></li>
+<li><p>ValueError: When “interp” is out of pre-defined methods (‘NEAREST’, ‘LINEAR’, ‘CUBIC’,
+‘AREA’, ‘LANCZOS4’, ‘RANDOM’).</p></li>
+</ul>
+</div></blockquote>
+</div></blockquote>
+</div></blockquote>
+</div>
+<div class="section" id="resizebylong">
+<h2>ResizeByLong<a class="headerlink" href="#resizebylong" title="永久链接至标题">¶</a></h2>
+<blockquote>
+<div><p>CLASS paddleseg.transforms.ResizeByLong(long_size)</p>
+</div></blockquote>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Resize</span> <span class="n">the</span> <span class="n">long</span> <span class="n">side</span> <span class="n">of</span> <span class="n">an</span> <span class="n">image</span> <span class="n">to</span> <span class="n">given</span> <span class="n">size</span><span class="p">,</span> <span class="ow">and</span> <span class="n">then</span> <span class="n">scale</span> <span class="n">the</span> <span class="n">other</span> <span class="n">side</span> <span class="n">proportionally</span><span class="o">.</span>
+</pre></div>
+</div>
+<blockquote>
+<div><blockquote>
+<div><p>Args</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><strong>long_size</strong> (int): The target size of long side.</p></li>
+</ul>
+</div></blockquote>
+</div></blockquote>
+</div></blockquote>
+</div>
+<div class="section" id="resizerangescaling">
+<h2>ResizeRangeScaling<a class="headerlink" href="#resizerangescaling" title="永久链接至标题">¶</a></h2>
+<blockquote>
+<div><p>CLASS paddleseg.transforms.ResizeRangeScaling(min_value=400, max_value=600)</p>
+</div></blockquote>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Resize</span> <span class="n">the</span> <span class="n">long</span> <span class="n">side</span> <span class="n">of</span> <span class="n">an</span> <span class="n">image</span> <span class="n">into</span> <span class="n">a</span> <span class="nb">range</span><span class="p">,</span> <span class="ow">and</span> <span class="n">then</span> <span class="n">scale</span> <span class="n">the</span> <span class="n">other</span> <span class="n">side</span> <span class="n">proportionally</span><span class="o">.</span>
+</pre></div>
+</div>
+<blockquote>
+<div><blockquote>
+<div><p>Args</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><strong>min_value</strong> (int, optional): The minimum value of long side after resize. Default: 400.</p></li>
+<li><p><strong>max_value</strong> (int, optional): The maximum value of long side after resize. Default: 600.</p></li>
+</ul>
+</div></blockquote>
+</div></blockquote>
+</div></blockquote>
+</div>
+<div class="section" id="resizestepscaling">
+<h2>ResizeStepScaling<a class="headerlink" href="#resizestepscaling" title="永久链接至标题">¶</a></h2>
+<blockquote>
+<div><p>CLASS paddleseg.transforms.ResizeStepScaling(min_scale_factor=0.75,
+max_scale_factor=1.25,
+scale_step_size=0.25)</p>
+</div></blockquote>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Scale</span> <span class="n">an</span> <span class="n">image</span> <span class="n">proportionally</span> <span class="n">within</span> <span class="n">a</span> <span class="nb">range</span><span class="o">.</span>
+</pre></div>
+</div>
+<blockquote>
+<div><blockquote>
+<div><p>Args</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><strong>min_scale_factor</strong>** (float, optional): The minimum scale. Default: 0.75.</p></li>
+<li><p><strong>max_scale_factor</strong> (float, optional): The maximum scale. Default: 1.25.</p></li>
+<li><p><strong>scale_step_size</strong> (float, optional): The scale interval. Default: 0.25.</p></li>
+</ul>
+</div></blockquote>
+</div></blockquote>
+</div></blockquote>
+<blockquote>
+<div><blockquote>
+<div><p>Raises</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>ValueError: When min_scale_factor is smaller than max_scale_factor.</p></li>
+</ul>
+</div></blockquote>
+</div></blockquote>
+</div></blockquote>
+</div>
+<div class="section" id="normalize">
+<h2>Normalize<a class="headerlink" href="#normalize" title="永久链接至标题">¶</a></h2>
+<blockquote>
+<div><p>CLASS paddleseg.transforms.Normalize(mean=(0.5, 0.5, 0.5), std=(0.5, 0.5, 0.5))</p>
+</div></blockquote>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Normalize</span> <span class="n">an</span> <span class="n">image</span><span class="o">.</span>
+</pre></div>
+</div>
+<blockquote>
+<div><blockquote>
+<div><p>Args</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><strong>mean</strong> (list, optional): The mean value of a data set. Default: [0.5, 0.5, 0.5].</p></li>
+<li><p><strong>std</strong> (list, optional): The standard deviation of a data set. Default: [0.5, 0.5, 0.5].</p></li>
+</ul>
+</div></blockquote>
+</div></blockquote>
+</div></blockquote>
+<blockquote>
+<div><blockquote>
+<div><p>Raises</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>ValueError: When mean/std is not list or any value in std is 0.</p></li>
+</ul>
+</div></blockquote>
+</div></blockquote>
+</div></blockquote>
+</div>
+<div class="section" id="padding">
+<h2>Padding<a class="headerlink" href="#padding" title="永久链接至标题">¶</a></h2>
+<blockquote>
+<div><p>CLASS paddleseg.transforms.Padding(target_size,
+im_padding_value=(127.5, 127.5, 127.5),
+label_padding_value=255)</p>
+</div></blockquote>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Add</span> <span class="n">bottom</span><span class="o">-</span><span class="n">right</span> <span class="n">padding</span> <span class="n">to</span> <span class="n">a</span> <span class="n">raw</span> <span class="n">image</span> <span class="ow">or</span> <span class="n">annotation</span> <span class="n">image</span><span class="o">.</span>
+</pre></div>
+</div>
+<blockquote>
+<div><blockquote>
+<div><p>Args</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><strong>target_size</strong> (list|tuple): The target size after padding.</p></li>
+<li><p><strong>im_padding_value</strong> (list, optional): The padding value of raw image.
+Default: [127.5, 127.5, 127.5].</p></li>
+<li><p><strong>label_padding_value</strong> (int, optional): The padding value of annotation image. Default: 255.</p></li>
+</ul>
+</div></blockquote>
+</div></blockquote>
+</div></blockquote>
+<blockquote>
+<div><blockquote>
+<div><p>Raises</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>TypeError: When target_size is neither list nor tuple.</p></li>
+<li><p>ValueError: When the length of target_size is not 2.</p></li>
+</ul>
+</div></blockquote>
+</div></blockquote>
+</div></blockquote>
+</div>
+<div class="section" id="randompaddingcrop">
+<h2>RandomPaddingCrop<a class="headerlink" href="#randompaddingcrop" title="永久链接至标题">¶</a></h2>
+<blockquote>
+<div><p>CLASS paddleseg.transforms.RandomPaddingCrop(crop_size=(512, 512),
+im_padding_value=(127.5, 127.5, 127.5),
+label_padding_value=255)</p>
+</div></blockquote>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Crop</span> <span class="n">a</span> <span class="n">sub</span><span class="o">-</span><span class="n">image</span> <span class="kn">from</span> <span class="nn">a</span> <span class="n">raw</span> <span class="n">image</span> <span class="ow">and</span> <span class="n">annotation</span> <span class="n">image</span> <span class="n">randomly</span><span class="o">.</span> <span class="n">If</span> <span class="n">the</span> <span class="n">target</span> <span class="n">cropping</span> <span class="n">size</span>
+<span class="ow">is</span> <span class="n">larger</span> <span class="n">than</span> <span class="n">original</span> <span class="n">image</span><span class="p">,</span> <span class="n">then</span> <span class="n">the</span> <span class="n">bottom</span><span class="o">-</span><span class="n">right</span> <span class="n">padding</span> <span class="n">will</span> <span class="n">be</span> <span class="n">added</span><span class="o">.</span>
+</pre></div>
+</div>
+<blockquote>
+<div><blockquote>
+<div><p>Args</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><strong>crop_size</strong> (tuple, optional): The target cropping size. Default: (512, 512).</p></li>
+<li><p><strong>im_padding_value</strong> (list, optional): The padding value of raw image.
+Default: [127.5, 127.5, 127.5].</p></li>
+<li><p><strong>label_padding_value</strong> (int, optional): The padding value of annotation image. Default: 255.</p></li>
+</ul>
+</div></blockquote>
+</div></blockquote>
+</div></blockquote>
+<blockquote>
+<div><blockquote>
+<div><p>Raises</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>TypeError: When crop_size is neither list nor tuple.</p></li>
+<li><p>ValueError: When the length of crop_size is not 2.</p></li>
+</ul>
+</div></blockquote>
+</div></blockquote>
+</div></blockquote>
+</div>
+<div class="section" id="randomblur">
+<h2>RandomBlur<a class="headerlink" href="#randomblur" title="永久链接至标题">¶</a></h2>
+<blockquote>
+<div><p>CLASS paddleseg.transforms.RandomBlur(prob=0.1)</p>
+</div></blockquote>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Blurring</span> <span class="n">an</span> <span class="n">image</span> <span class="n">by</span> <span class="n">a</span> <span class="n">Gaussian</span> <span class="n">function</span> <span class="k">with</span> <span class="n">a</span> <span class="n">certain</span> <span class="n">probability</span><span class="o">.</span>
+</pre></div>
+</div>
+<blockquote>
+<div><blockquote>
+<div><p>Args</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><strong>prob</strong> (float, optional): A probability of blurring an image. Default: 0.1.</p></li>
+</ul>
+</div></blockquote>
+</div></blockquote>
+</div></blockquote>
+</div>
+<div class="section" id="randomrotation">
+<h2>RandomRotation<a class="headerlink" href="#randomrotation" title="永久链接至标题">¶</a></h2>
+<blockquote>
+<div><p>CLASS paddleseg.transforms.RandomRotation(max_rotation=15,
+im_padding_value=(127.5, 127.5, 127.5),
+label_padding_value=255)</p>
+</div></blockquote>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Rotate</span> <span class="n">an</span> <span class="n">image</span> <span class="n">randomly</span> <span class="k">with</span> <span class="n">padding</span><span class="o">.</span>
+</pre></div>
+</div>
+<blockquote>
+<div><blockquote>
+<div><p>Args</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><strong>max_rotation</strong> (float, optional): The maximum rotation degree. Default: 15.</p></li>
+<li><p><strong>im_padding_value</strong> (list, optional): The padding value of raw image.
+Default: [127.5, 127.5, 127.5].</p></li>
+<li><p><strong>label_padding_value</strong> (int, optional): The padding value of annotation image. Default: 255.</p></li>
+</ul>
+</div></blockquote>
+</div></blockquote>
+</div></blockquote>
+</div>
+<div class="section" id="randomscaleaspect">
+<h2>RandomScaleAspect<a class="headerlink" href="#randomscaleaspect" title="永久链接至标题">¶</a></h2>
+<blockquote>
+<div><p>CLASS paddleseg.transforms.RandomScaleAspect(min_scale=0.5, aspect_ratio=0.33)</p>
+</div></blockquote>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Crop</span> <span class="n">a</span> <span class="n">sub</span><span class="o">-</span><span class="n">image</span> <span class="kn">from</span> <span class="nn">an</span> <span class="n">original</span> <span class="n">image</span> <span class="k">with</span> <span class="n">a</span> <span class="nb">range</span> <span class="n">of</span> <span class="n">area</span> <span class="n">ratio</span> <span class="ow">and</span> <span class="n">aspect</span> <span class="ow">and</span>
+<span class="n">then</span> <span class="n">scale</span> <span class="n">the</span> <span class="n">sub</span><span class="o">-</span><span class="n">image</span> <span class="n">back</span> <span class="n">to</span> <span class="n">the</span> <span class="n">size</span> <span class="n">of</span> <span class="n">the</span> <span class="n">original</span> <span class="n">image</span><span class="o">.</span>
+</pre></div>
+</div>
+<blockquote>
+<div><blockquote>
+<div><p>Args</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><strong>min_scale</strong> (float, optional): The minimum area ratio of cropped image to the original image. Default: 0.5.</p></li>
+<li><p><strong>aspect_ratio</strong> (float, optional): The minimum aspect ratio. Default: 0.33.</p></li>
+</ul>
+</div></blockquote>
+</div></blockquote>
+</div></blockquote>
+</div>
+<div class="section" id="randomdistort">
+<h2>RandomDistort<a class="headerlink" href="#randomdistort" title="永久链接至标题">¶</a></h2>
+<blockquote>
+<div><p>CLASS paddleseg.transforms.RandomDistort(brightness_range=0.5,
+brightness_prob=0.5,
+contrast_range=0.5,
+contrast_prob=0.5,
+saturation_range=0.5,
+saturation_prob=0.5,
+hue_range=18,
+hue_prob=0.5)</p>
+</div></blockquote>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Distort</span> <span class="n">an</span> <span class="n">image</span> <span class="k">with</span> <span class="n">random</span> <span class="n">configurations</span><span class="o">.</span>
+</pre></div>
+</div>
+<blockquote>
+<div><blockquote>
+<div><p>Args</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><strong>brightness_range</strong> (float, optional): A range of brightness. Default: 0.5.</p></li>
+<li><p><strong>brightness_prob</strong> (float, optional): A probability of adjusting brightness. Default: 0.5.</p></li>
+<li><p><strong>contrast_range</strong> (float, optional): A range of contrast. Default: 0.5.</p></li>
+<li><p><strong>contrast_prob</strong> (float, optional): A probability of adjusting contrast. Default: 0.5.</p></li>
+<li><p><strong>saturation_range</strong> (float, optional): A range of saturation. Default: 0.5.</p></li>
+<li><p><strong>saturation_prob</strong> (float, optional): A probability of adjusting saturation. Default: 0.5.</p></li>
+<li><p><strong>hue_range</strong> (int, optional): A range of hue. Default: 18.</p></li>
+<li><p><strong>hue_prob</strong> (float, optional): A probability of adjusting hue. Default: 0.5.</p></li>
+</ul>
+</div></blockquote>
+</div></blockquote>
+</div></blockquote>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+        <a href="datasets.html" class="btn btn-neutral float-right" title="paddleseg.datasets" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="index.html" class="btn btn-neutral float-left" title="数据处理与增强" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; 版权所有 2021, liuzheng.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
