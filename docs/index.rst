@@ -104,5 +104,15 @@ PaddleSeg是基于飞桨核心框架、开发套件和工具组件的深度学�
    solution/remotesensing/index.rst
    solution/medical/index.rst
 
-
+.. toctree::
+   :maxdepth: 1
+   :caption: 13. 提交PR说明
+   
+   pr/pr/index.rst
+   
+.. toctree::
+   :maxdepth: 1
+   :caption: 14. FAQ文档问答
+   
+   faq/faq/index.rst
 
